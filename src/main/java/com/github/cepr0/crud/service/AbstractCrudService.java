@@ -1,13 +1,13 @@
-package io.github.cepr0.crud.service;
+package com.github.cepr0.crud.service;
 
-import io.github.cepr0.crud.dto.CrudRequest;
-import io.github.cepr0.crud.dto.CrudResponse;
-import io.github.cepr0.crud.event.CreateEntityEvent;
-import io.github.cepr0.crud.event.DeleteEntityEvent;
-import io.github.cepr0.crud.event.UpdateEntityEvent;
-import io.github.cepr0.crud.mapper.CrudMapper;
-import io.github.cepr0.crud.model.IdentifiableEntity;
-import io.github.cepr0.crud.repo.CrudRepo;
+import com.github.cepr0.crud.dto.CrudRequest;
+import com.github.cepr0.crud.dto.CrudResponse;
+import com.github.cepr0.crud.event.CreateEntityEvent;
+import com.github.cepr0.crud.event.DeleteEntityEvent;
+import com.github.cepr0.crud.event.UpdateEntityEvent;
+import com.github.cepr0.crud.mapper.CrudMapper;
+import com.github.cepr0.crud.model.IdentifiableEntity;
+import com.github.cepr0.crud.repo.CrudRepo;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.ApplicationEventPublisher;
 import org.springframework.data.domain.Pageable;
@@ -20,7 +20,7 @@ import java.util.List;
 import java.util.Optional;
 import java.util.stream.Collectors;
 
-@SuppressWarnings("WeakerAccess")
+@SuppressWarnings({"WeakerAccess", "SpringJavaAutowiredMembersInspection"})
 @Transactional
 public abstract class AbstractCrudService<T extends IdentifiableEntity<ID>, ID extends Serializable, Q extends CrudRequest, S extends CrudResponse<ID>>
 		implements CrudService<T, ID, Q, S> {

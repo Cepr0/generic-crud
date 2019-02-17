@@ -1,4 +1,4 @@
-package io.github.cepr0.crud.dto;
+package com.github.cepr0.crud.dto;
 
 import org.springframework.lang.Nullable;
 

@@ -1,6 +1,6 @@
-package io.github.cepr0.crud.repo;
+package com.github.cepr0.crud.repo;
 
-import io.github.cepr0.crud.model.IdentifiableEntity;
+import com.github.cepr0.crud.model.IdentifiableEntity;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
 import org.springframework.data.jpa.repository.JpaRepository;

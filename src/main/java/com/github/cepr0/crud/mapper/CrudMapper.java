@@ -1,8 +1,8 @@
-package io.github.cepr0.crud.mapper;
+package com.github.cepr0.crud.mapper;
 
-import io.github.cepr0.crud.dto.CrudRequest;
-import io.github.cepr0.crud.dto.CrudResponse;
-import io.github.cepr0.crud.model.IdentifiableEntity;
+import com.github.cepr0.crud.dto.CrudRequest;
+import com.github.cepr0.crud.dto.CrudResponse;
+import com.github.cepr0.crud.model.IdentifiableEntity;
 import org.mapstruct.MappingTarget;
 import org.springframework.lang.NonNull;
 

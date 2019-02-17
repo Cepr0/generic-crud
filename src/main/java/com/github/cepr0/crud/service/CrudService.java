@@ -1,8 +1,8 @@
-package io.github.cepr0.crud.service;
+package com.github.cepr0.crud.service;
 
-import io.github.cepr0.crud.dto.CrudRequest;
-import io.github.cepr0.crud.dto.CrudResponse;
-import io.github.cepr0.crud.model.IdentifiableEntity;
+import com.github.cepr0.crud.dto.CrudRequest;
+import com.github.cepr0.crud.dto.CrudResponse;
+import com.github.cepr0.crud.model.IdentifiableEntity;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
 import org.springframework.lang.NonNull;

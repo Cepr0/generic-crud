@@ -1,6 +1,6 @@
-package io.github.cepr0.crud.event;
+package com.github.cepr0.crud.event;
 
-import io.github.cepr0.crud.model.IdentifiableEntity;
+import com.github.cepr0.crud.model.IdentifiableEntity;
 import lombok.Getter;
 
 import java.io.Serializable;

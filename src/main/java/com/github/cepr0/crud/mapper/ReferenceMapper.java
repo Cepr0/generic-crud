@@ -1,7 +1,7 @@
-package io.github.cepr0.crud.mapper;
+package com.github.cepr0.crud.mapper;
 
-import io.github.cepr0.crud.model.IdentifiableEntity;
-import io.github.cepr0.crud.repo.CrudRepo;
+import com.github.cepr0.crud.model.IdentifiableEntity;
+import com.github.cepr0.crud.repo.CrudRepo;
 import org.springframework.lang.NonNull;
 import org.springframework.lang.Nullable;
 

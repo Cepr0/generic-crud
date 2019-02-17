@@ -1,9 +1,9 @@
-package io.github.cepr0.crud.controller;
+package com.github.cepr0.crud.controller;
 
-import io.github.cepr0.crud.dto.CrudRequest;
-import io.github.cepr0.crud.dto.CrudResponse;
-import io.github.cepr0.crud.model.IdentifiableEntity;
-import io.github.cepr0.crud.service.CrudService;
+import com.github.cepr0.crud.dto.CrudRequest;
+import com.github.cepr0.crud.dto.CrudResponse;
+import com.github.cepr0.crud.model.IdentifiableEntity;
+import com.github.cepr0.crud.service.CrudService;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
 import org.springframework.http.HttpStatus;
@@ -16,6 +16,7 @@ import org.springframework.web.bind.annotation.ResponseStatus;
 import java.io.Serializable;
 import java.util.List;
 
+@SuppressWarnings("WeakerAccess")
 public abstract class AbstractCrudController<T extends IdentifiableEntity<ID>, ID extends Serializable, Q extends CrudRequest, S extends CrudResponse<ID>> {
 
 	protected final CrudService<T, ID, Q, S> service;

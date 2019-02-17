@@ -1,4 +1,4 @@
-package io.github.cepr0.crud.model;
+package com.github.cepr0.crud.model;
 
 import org.springframework.lang.Nullable;
 
