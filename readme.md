@@ -2,19 +2,18 @@
 
 [![](https://jitpack.io/v/Cepr0/generic-crud.svg)](https://jitpack.io/#Cepr0/generic-crud)
 
-**Generic-CRUD** is a simple **library** which can help to reduce and maybe avoid the boilerplate code of CRUD operations 
-in your Spring Boot web applications. It has an abstract generic service and REST controller classes and related interfaces 
-which code implements a full set of base operations to create, read, update and delete your entities.
+**Generic-CRUD** is a handy library that can help exclude writing of boilerplate code for **CRUD** operations 
+in Spring web applications. It implements a full set of base operations with a database to create, read, update 
+and delete your entities.
 
 ### Usage example
 
-1. Inherit your entity from the `IdentifiableEntity` interface:     
+1. Inherit your entity from the `IdentifiableEntity` interface or from the `JpaEntity` class:     
 ```java
 @Getter
 @Setter
-@EqualsAndHashCode(of = "id")
 @NoArgsConstructor
-public class Model implements IdentifiableEntity<Long> {
+public class Model extends JpaEntity<Long> {
     @Id
     @GeneratedValue
     private Long id;
@@ -22,91 +21,85 @@ public class Model implements IdentifiableEntity<Long> {
     private String name;
 }
 ```
-
-2. Inherit your entity repo from the `CrudRepo`:
+2. Inherit your entity repo from the `JpaRepo`:
 ```java
-public interface ModelRepo extends CrudRepo<Model, Long> {}
+public interface ModelRepo extends JpaRepo<Model, Long> {}
 ```
-
 3. Prepare request and response DTOs of your entity:
 ```java
 @Data
 public class ModelRequest implements CrudRequest {
-	private String name;
+   private String name;
 }
 
 @Data
 public class ModelResponse implements CrudResponse<Long> {
-	private Long id;
-	private String name;
+    private Long id;
+    private String name;
 }
 ```
-
-4. Prepare a mapper between your entity and its DTOs:
+4. Prepare a mapper between the entity and its DTOs:
 ```java
 @Mapper(
-		nullValueCheckStrategy = ALWAYS,
-		nullValueMappingStrategy = RETURN_DEFAULT,
-		nullValuePropertyMappingStrategy = IGNORE
+    nullValueCheckStrategy = ALWAYS,
+    nullValueMappingStrategy = RETURN_DEFAULT,
+    nullValuePropertyMappingStrategy = IGNORE
 )
-public abstract class ModelMapper implements CrudMapper<Model, Long, ModelRequest, ModelResponse> {
+public abstract class ModelMapper implements CrudMapper<Model, ModelRequest, ModelResponse> {
 }
 ```
-
 (The library relies on [MapStruct](http://mapstruct.org/) framework to build the mappers.)  
 
-5. Prepare a service which will serve your entity:
+5. Prepare a service which will serve your DTOs and entities:
 ```java
 @Service
 public class ModelService extends AbstractCrudService<Model, Long, ModelRequest, ModelResponse> {
-	public ModelService(@NonNull final ModelRepo repo, @NonNull final ModelMapper mapper) {
-		super(repo, mapper);
-	}
+    public ModelService(@NonNull final ModelRepo repo, @NonNull final ModelMapper mapper) {
+        super(repo, mapper);
+    }
 }
 ```
-
-6. And finally prepare a REST controller which will serve the CRUD requests of your entity:
+6. And finally prepare a REST controller which will serve the CRUD requests of the entity:
 ```java
 @RestController
 @RequestMapping("models")
 public class ModelController extends AbstractCrudController<Model, Long, ModelRequest, ModelResponse> {
 
-	public ModelController(@NonNull final ModelService service) {
-		super(service);
-	}
-
-	@PostMapping
-	@Override
-	public ModelResponse create(@Valid @RequestBody @NonNull final ModelRequest request) {
-		return super.create(request);
-	}
-
-	@PatchMapping("/{id}")
-	@Override
-	public ResponseEntity<?> update(@PathVariable("id") @NonNull final Long id, @Valid @RequestBody @NonNull final ModelRequest request) {
-		return super.update(id, request);
-	}
-
-	@DeleteMapping("/{id}")
-	@Override
-	public ResponseEntity<?> delete(@PathVariable("id") @NonNull final Long id) {
-		return super.delete(id);
-	}
-
-	@GetMapping("/{id}")
-	@Override
-	public ResponseEntity<?> getOne(@PathVariable("id") @NonNull final Long id) {
-		return super.getOne(id);
-	}
-
-	@GetMapping
-	@Override
-	public List<ModelResponse> getAll() {
-		return super.getAll();
-	}
+    public ModelController(@NonNull final ModelService service) {
+        super(service);
+    }
+    
+    @PostMapping
+    @Override
+    public ModelResponse create(@Valid @RequestBody @NonNull final ModelRequest request) {
+        return super.create(request);
+    }
+    
+    @PatchMapping("/{id}")
+    @Override
+    public ResponseEntity<?> update(@PathVariable("id") @NonNull final Long id, @Valid @RequestBody @NonNull final ModelRequest request) {
+        return super.update(id, request);
+    }
+    
+    @DeleteMapping("/{id}")
+    @Override
+    public ResponseEntity<?> delete(@PathVariable("id") @NonNull final Long id) {
+        return super.delete(id);
+    }
+    
+    @GetMapping("/{id}")
+    @Override
+    public ResponseEntity<?> getOne(@PathVariable("id") @NonNull final Long id) {
+        return super.getOne(id);
+    }
+    
+    @GetMapping
+    @Override
+    public Page<ModelResponse> getAll(Pageable pageable) {
+        return super.getAll(pageable);
+    }
 }
-```
-   
+``` 
 Then your app is fully setup to perform CRUD operations with your entity.
       
 ## Install 
@@ -121,14 +114,19 @@ You can install the library to your project with help of [JitPack](https://jitpa
 </repositories>
 
 <dependensies>
-	<dependency>
-	    <groupId>com.github.cepr0</groupId>
-	    <artifactId>generic-crud</artifactId>
-	    <version>0.0.2-SNAPSHOT</version>
-	</dependency>
+    <dependency>
+        <groupId>io.github.cepr0</groupId>
+        <artifactId>generic-crud-web</artifactId>
+        <version>0.0.3-SNAPSHOT</version>
+    </dependency>
+    <dependency>
+        <groupId>io.github.cepr0</groupId>
+        <artifactId>generic-crud-jpa</artifactId>
+        <version>0.0.3-SNAPSHOT</version>
+    </dependency>
 </dependensies>
 ```
 
 ## Demo Application
 
-You can find the demo of the library usage in this repo: [cepr0/generic-crud-demo](https://github.com/Cepr0/generic-crud-demo).
+You can find the demo application with the library usage example in the **demo** module.

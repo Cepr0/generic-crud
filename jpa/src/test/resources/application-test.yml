@@ -1,0 +1,21 @@
+logging:
+  level:
+    jdbc:
+      sqltiming: info
+      resultsettable: info
+      sqlonly: fatal
+      audit: fatal
+      resultset: fatal
+      connection: fatal
+    org:
+      springframework:
+        orm:
+          jpa: debug
+log4jdbc:
+  dump:
+    sql:
+      addsemicolon: true
+      maxlinelength: 0
+  trim:
+    sql:
+      extrablanklines: false
