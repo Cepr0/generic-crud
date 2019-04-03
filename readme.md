@@ -1,6 +1,7 @@
 ## Generic CRUD
 
-![https://jitpack.io/v/Cepr0/generic-crud-new.svg](https://jitpack.io/#Cepr0/generic-crud-new)
+[![](https://jitpack.io/v/Cepr0/generic-crud-new.svg)](https://jitpack.io/#Cepr0/generic-crud-new)
+
 
 **Generic-CRUD** is a handy library that can help exclude writing of boilerplate code for **CRUD** operations 
 in Spring web applications. It implements a full set of base operations with a database to create, read, update 
@@ -114,16 +115,16 @@ You can install the library to your project with help of [JitPack](https://jitpa
 </repositories>
 
 <dependensies>
-    <dependency>
-        <groupId>io.github.cepr0</groupId>
-        <artifactId>generic-crud-web</artifactId>
-        <version>0.0.3-SNAPSHOT</version>
-    </dependency>
-    <dependency>
-        <groupId>io.github.cepr0</groupId>
-        <artifactId>generic-crud-jpa</artifactId>
-        <version>0.0.3-SNAPSHOT</version>
-    </dependency>
+	<dependency>
+	    <groupId>com.github.Cepr0.generic-crud-new</groupId>
+	    <artifactId>generic-crud-web</artifactId>
+	    <version>0.0.4-SNAPSHOT</version>
+	</dependency>
+	<dependency>
+	    <groupId>com.github.Cepr0.generic-crud-new</groupId>
+	    <artifactId>generic-crud-jpa</artifactId>
+	    <version>0.0.4-SNAPSHOT</version>
+	</dependency>
 </dependensies>
 ```
 
