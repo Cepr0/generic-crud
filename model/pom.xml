@@ -13,7 +13,7 @@
         <groupId>io.github.cepr0</groupId>
         <artifactId>generic-crud-parent</artifactId>
         <version>0.0.3-SNAPSHOT</version>
-        <relativePath>../parent</relativePath>
+        <relativePath>../pom.xml</relativePath>
     </parent>
 
     <build>
