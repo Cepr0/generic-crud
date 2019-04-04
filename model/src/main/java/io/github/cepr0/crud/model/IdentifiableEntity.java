@@ -18,6 +18,21 @@ package io.github.cepr0.crud.model;
 
 import java.io.Serializable;
 
+/**
+ * Base interface used in the library to mark entities that are identifiable by an ID of any type.
+ * <p>
+ * You have to inherit your entities from this interface
+ * if you want them to use the functionality of this library.
+ *
+ * @param <ID> type of the entity identifier
+ *
+ * @author Sergei Poznanski
+ */
 public interface IdentifiableEntity<ID extends Serializable> extends Serializable {
+	/**
+	 * Returns the id identifying the entity.
+	 *
+	 * @return the identifier of the entity or {@code null} if not available.
+	 */
 	ID getId();
 }

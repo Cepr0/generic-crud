@@ -21,8 +21,22 @@ import java.lang.annotation.Retention;
 import java.lang.annotation.RetentionPolicy;
 import java.lang.annotation.Target;
 
+/**
+ * Annotation to set the <u>custom plural</u> alias of the embedded content in the {@code Page} object,
+ * which is processed in the custom {@code Page} serializer (see {@code CrudPageSerializer}).
+ * <br/>
+ * It can be used to mark any entities or response DTOs for which you need to set the custom plural name
+ * in the serialized representation of the {@code Page} object.
+ *
+ * @author Sergei Poznanski
+ */
 @Target(ElementType.TYPE)
 @Retention(RetentionPolicy.RUNTIME)
 public @interface ContentAlias {
+	/**
+	 * Defines the plural alias of the marked entity.
+	 *
+	 * @return the plural alias of the entity.
+	 */
 	String value();
 }
