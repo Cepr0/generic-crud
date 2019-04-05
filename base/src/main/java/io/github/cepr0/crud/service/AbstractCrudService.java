@@ -38,6 +38,16 @@ import java.util.List;
 import java.util.Optional;
 import java.util.stream.Collectors;
 
+/**
+ * Base implementation of {@link CrudService}.
+ *
+ * @param <T> type of the entity which extends {@link IdentifiableEntity}
+ * @param <ID> type of the entity identifier
+ * @param <Q> type of the input (request) DTO
+ * @param <S> type of the output (response) DTO
+ *
+ * @author Sergei Poznanski
+ */
 @Transactional
 public abstract class AbstractCrudService<T extends IdentifiableEntity<ID>, ID extends Serializable, Q extends CrudRequest, S extends CrudResponse<ID>>
 		implements CrudService<T, ID, Q, S> {
@@ -52,6 +62,12 @@ public abstract class AbstractCrudService<T extends IdentifiableEntity<ID>, ID e
 		this.mapper = mapper;
 	}
 
+	/**
+	 * {@inheritDoc}
+	 * <br/>
+	 * Publishes a new {@link CreateEntityEvent} which contains the saved entity
+	 * for post-processing in the custom event listener, transactional or not.
+	 */
 	@NonNull
 	@Override
 	public T create(@NonNull final T source) {
@@ -60,6 +76,12 @@ public abstract class AbstractCrudService<T extends IdentifiableEntity<ID>, ID e
 		return entity;
 	}
 
+	/**
+	 * {@inheritDoc}
+	 * <br/>
+	 * Publishes a new {@link CreateEntityEvent} which contains the saved entity
+	 * for post-processing in the custom event listener, transactional or not.
+	 */
 	@NonNull
 	@Override
 	public S create(@NonNull final Q source) {
@@ -67,6 +89,12 @@ public abstract class AbstractCrudService<T extends IdentifiableEntity<ID>, ID e
 		return mapper.toResponse(create(entity));
 	}
 
+	/**
+	 * {@inheritDoc}
+	 * <br/>
+	 * Publishes a new {@link UpdateEntityEvent} which contains the updated entity
+	 * for post-processing in the custom event listener, transactional or not.
+	 */
 	@NonNull
 	@Override
 	public Optional<T> update(final ID id, final T source) {
@@ -77,6 +105,12 @@ public abstract class AbstractCrudService<T extends IdentifiableEntity<ID>, ID e
 				});
 	}
 
+	/**
+	 * {@inheritDoc}
+	 * <br/>
+	 * Publishes a new {@link UpdateEntityEvent} which contains the updated entity
+	 * for post-processing in the custom event listener, transactional or not.
+	 */
 	@NonNull
 	@Override
 	public Optional<S> update(final ID id, final Q source) {
@@ -88,6 +122,12 @@ public abstract class AbstractCrudService<T extends IdentifiableEntity<ID>, ID e
 				.map(mapper::toResponse);
 	}
 
+	/**
+	 * {@inheritDoc}
+	 * <br/>
+	 * Publishes a new {@link DeleteEntityEvent} which contains the deleted entity
+	 * for post-processing in the custom event listener, transactional or not.
+	 */
 	@Override
 	public boolean delete(@NonNull final ID id) {
 		return repo.delete(id).map(deleted -> {
@@ -152,6 +192,13 @@ public abstract class AbstractCrudService<T extends IdentifiableEntity<ID>, ID e
 		return repo.getAll(sort).stream().map(mapper::toResponse).collect(Collectors.toList());
 	}
 
+	/**
+	 * Provides an array of bean properties to be ignored
+	 * when the entity is updated in {@link AbstractCrudService#update(Serializable, IdentifiableEntity)}.<br/>
+	 * You can override this method in your implementation of this service and provide your own list of ignored properties.
+	 *
+	 * @return an array of ignored properties.
+	 */
 	protected String[] ignoredProps() {
 		return new String[] {"id", "version", "createdAt", "updatedAt"};
 	}

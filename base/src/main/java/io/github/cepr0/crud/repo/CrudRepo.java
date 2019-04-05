@@ -27,18 +27,90 @@ import java.io.Serializable;
 import java.util.List;
 import java.util.Optional;
 
+/**
+ * Repository interface of generic CRUD operations for a specific entity type and its identifier.
+ *
+ * @param <T> type of the entity which extends {@link IdentifiableEntity}
+ * @param <ID> type of the entity identifier
+ *
+ * @author Sergei Poznanski
+ */
 public interface CrudRepo<T extends IdentifiableEntity<ID>, ID extends Serializable> {
+	/**
+	 * Create (save) a given entity.
+	 *
+	 * @param entity must not be {@code null}
+	 * @return created (saved) entity, will never be {@code null}
+	 */
 	@NonNull T create(@NonNull T entity);
 
+	/**
+	 * Retrieves an entity to be updated, by its id.
+	 * Used in the implementation of {@link CrudRepo#update} method.
+	 *
+	 * @param id must not be {@code null}
+	 * @return the entity with the given id or {@code Optional#empty()} if none found
+	 */
 	@NonNull Optional<T> getToUpdateById(@NonNull ID id);
+
+	/**
+	 * Update an entity, found by its id, with a given source and a mapper.
+	 * <br/>
+	 * Implementation of this method must used {@link CrudRepo#getToUpdateById} method to find the updated entity.
+	 *
+	 * @param id must not be {@code null}
+	 * @param source must not be {@code null}
+	 * @param mapper must not be {@code null}
+	 * @param <S> type of the source which properties are used to update the found entity
+	 * @return updated entity, will never be {@code null}
+	 */
 	@NonNull <S> Optional<T> update(@NonNull ID id, @NonNull S source, @NonNull BeanMapper<S, T> mapper);
 
+	/**
+	 * Retrieves an entity to be deleted, by its id.
+	 * Used in the implementation of {@link CrudRepo#delete} method.
+	 *
+	 * @param id must not be {@code null}
+	 * @return the entity with the given id or {@code Optional#empty()} if none found
+	 */
 	@NonNull Optional<T> getToDeleteById(@NonNull ID id);
+
+	/**
+	 * Delete an entity by its id.
+	 *
+	 * @param id must not be {@code null}
+	 * @return the deleted entity with the given id or {@code Optional#empty()} if none found
+	 */
 	@NonNull Optional<T> delete(@NonNull ID id);
 
+	/**
+	 * Retrieves an entity by its id.
+	 *
+	 * @param id must not be {@code null}
+	 * @return the entity with the given id or {@code Optional#empty()} if none found
+	 */
 	@NonNull Optional<T> getById(@NonNull ID id);
 
+	/**
+	 * Returns all instances of the entity.
+	 *
+	 * @return all entities
+	 */
 	@NonNull List<T> getAll();
+
+	/**
+	 * Returns a {@link Page} of entities meeting the paging restriction provided in the {@code Pageable} object.
+	 *
+	 * @param pageable must not be {@code null}
+	 * @return a page of entities
+	 */
 	@NonNull Page<T> getAll(@NonNull Pageable pageable);
+
+	/**
+	 * Returns all entities sorted by the given options.
+	 *
+	 * @param sort must not be {@code null}
+	 * @return all entities sorted by the given options
+	 */
 	@NonNull List<T> getAll(@NonNull Sort sort);
 }

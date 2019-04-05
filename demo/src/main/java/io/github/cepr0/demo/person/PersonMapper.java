@@ -27,16 +27,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 
 import java.util.UUID;
 
-import static org.mapstruct.NullValueCheckStrategy.ALWAYS;
-import static org.mapstruct.NullValueMappingStrategy.RETURN_DEFAULT;
-import static org.mapstruct.NullValuePropertyMappingStrategy.IGNORE;
-
-@Mapper(
-		nullValueCheckStrategy = ALWAYS,
-		nullValueMappingStrategy = RETURN_DEFAULT,
-		nullValuePropertyMappingStrategy = IGNORE,
-		uses = CarMapper.class
-)
+@Mapper(config = CrudMapper.class, uses = CarMapper.class)
 public abstract class PersonMapper implements CrudMapper<Person, PersonRequest, PersonResponse>, ReferenceMapper<Person, UUID> {
 	@Autowired @Getter private PersonRepo repo;
 }

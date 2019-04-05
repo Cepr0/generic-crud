@@ -20,9 +20,9 @@ import io.github.cepr0.crud.api.CrudPageSerializer;
 import org.springframework.boot.jackson.JsonComponent;
 
 @JsonComponent
-public class PageSerializer extends CrudPageSerializer {
-	public PageSerializer() {
-		elementsOnPage = "on_page";
+public class CustomPageSerializer extends CrudPageSerializer {
+	public CustomPageSerializer() {
+		elementsExposed = "on_page";
 		contentAliasMode = ContentAliasMode.FIRST_WORD;
 	}
 }

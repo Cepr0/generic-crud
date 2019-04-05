@@ -18,7 +18,23 @@ package io.github.cepr0.crud.mapper;
 
 import org.springframework.lang.NonNull;
 
+/**
+ * Functional interface used to provide mapping between to arbitrary beans.
+ *
+ * @param <S> type of the source bean
+ * @param <T> type of the target bean
+ *
+ * @author Serhei Poznanski
+ */
 @FunctionalInterface
 public interface BeanMapper<S, T> {
+
+	/**
+	 * Maps the source bean to the target bean.
+	 *
+	 * @param source must not be {@code null}
+	 * @param target must not be {@code null}
+	 * @return the target bean
+	 */
 	@NonNull T map(@NonNull S source, @NonNull T target);
 }

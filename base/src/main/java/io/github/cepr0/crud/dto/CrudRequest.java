@@ -16,5 +16,10 @@
 
 package io.github.cepr0.crud.dto;
 
+/**
+ * Marker interface for all input (request) DTO related to the entities which CRUD operations are used for.
+ *
+ * @author Sergei Poznanski
+ */
 public interface CrudRequest {
 }

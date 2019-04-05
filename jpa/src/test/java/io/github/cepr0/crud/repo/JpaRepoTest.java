@@ -17,6 +17,7 @@
 package io.github.cepr0.crud.repo;
 
 import com.integralblue.log4jdbc.spring.Log4jdbcAutoConfiguration;
+import io.github.cepr0.crud.mapper.BeanMapper;
 import io.github.cepr0.crud.model.Model;
 import io.github.cepr0.crud.support.CrudUtils;
 import org.junit.Before;
@@ -39,6 +40,7 @@ import java.util.List;
 import java.util.Optional;
 
 import static org.assertj.core.api.Assertions.assertThat;
+import static org.assertj.core.api.Assertions.assertThatNullPointerException;
 import static org.springframework.transaction.annotation.Propagation.NOT_SUPPORTED;
 
 @RunWith(SpringRunner.class)
@@ -67,18 +69,20 @@ public class JpaRepoTest {
 		List<Model> models = modelRepo.findAll();
 		assertThat(models).hasSize(1);
 		assertThat(models.get(0)).isEqualToIgnoringGivenFields(model1, "id");
+
+		assertThatNullPointerException()
+				.isThrownBy(() -> modelRepo.create(null))
+				.withMessage("The given entity must not be null!");
 	}
 
 	@Sql(statements = "delete from models")
 	@Sql(statements = "insert into models (id, version, text, number) values (1, 0, 'text1', 1)")
 	@Test
 	public void updated() {
+		BeanMapper<Model, Model> mapper = (s, t) -> CrudUtils.copyNonNullProperties(s, t, "id", "version", "createdAt", "updatedAt");
 		Model source = new Model("updated", null);
-		Optional<Model> optionalModel = modelRepo.update(
-				1,
-				source,
-				(s, t) -> CrudUtils.copyNonNullProperties(s, t, "id", "version", "createdAt", "updatedAt")
-		);
+
+		Optional<Model> optionalModel = modelRepo.update(1, source, mapper);
 
 		source.setNumber(1).setId(1).setVersion(1);
 		assertThat(optionalModel)
@@ -88,6 +92,16 @@ public class JpaRepoTest {
 		List<Model> models = modelRepo.findAll();
 		assertThat(models).hasSize(1);
 		assertThat(models.get(0)).isEqualToComparingFieldByField(source);
+
+		modelRepo.update(null, source, mapper);
+
+		assertThatNullPointerException()
+				.isThrownBy(() -> modelRepo.update(1, null, mapper))
+				.withMessage("The given source must not be null!");
+
+		assertThatNullPointerException().isThrownBy
+				(() -> modelRepo.update(1, source, null))
+				.withMessage("The given mapper must not be null!");
 	}
 
 	@Sql(statements = "delete from models")

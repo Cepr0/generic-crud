@@ -25,15 +25,7 @@ import lombok.Getter;
 import org.mapstruct.Mapper;
 import org.springframework.beans.factory.annotation.Autowired;
 
-import static org.mapstruct.NullValueCheckStrategy.ALWAYS;
-import static org.mapstruct.NullValueMappingStrategy.RETURN_DEFAULT;
-import static org.mapstruct.NullValuePropertyMappingStrategy.IGNORE;
-
-@Mapper(
-		nullValueCheckStrategy = ALWAYS,
-		nullValueMappingStrategy = RETURN_DEFAULT,
-		nullValuePropertyMappingStrategy = IGNORE
-)
+@Mapper(config = CrudMapper.class)
 public abstract class UserMapper implements CrudMapper<User, UserRequest, UserResponse>, ReferenceMapper<User, Long> {
 	@Autowired @Getter private UserRepo repo;
 }

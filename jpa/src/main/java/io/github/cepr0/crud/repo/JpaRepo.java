@@ -29,6 +29,7 @@ import org.springframework.transaction.annotation.Transactional;
 
 import java.io.Serializable;
 import java.util.List;
+import java.util.Objects;
 import java.util.Optional;
 
 @Transactional
@@ -38,6 +39,7 @@ public interface JpaRepo<T extends IdentifiableEntity<ID>, ID extends Serializab
 	@NonNull
 	@Override
 	default T create(@NonNull final T entity) {
+		Objects.requireNonNull(entity, "The given entity must not be null!");
 		return save(entity);
 	}
 
@@ -49,6 +51,8 @@ public interface JpaRepo<T extends IdentifiableEntity<ID>, ID extends Serializab
 	@NonNull
 	@Override
 	default <S> Optional<T> update(@NonNull final ID id, @NonNull final S source, @NonNull final BeanMapper<S, T> mapper) {
+		Objects.requireNonNull(source, "The given source must not be null!");
+		Objects.requireNonNull(mapper, "The given mapper must not be null!");
 		return getToUpdateById(id)
 				.map(target -> mapper.map(source, target))
 				.map(target -> {

@@ -44,7 +44,7 @@ public class CrudPageSerializer extends JsonSerializer<Page> {
 
 	protected String elementsBlock = "elements";
 	protected String elementsTotal = "total";
-	protected String elementsOnPage = "current";
+	protected String elementsExposed = "exposed";
 
 	protected String sortBlock = "sort";
 	protected String sortedProperty = "property";
@@ -74,7 +74,7 @@ public class CrudPageSerializer extends JsonSerializer<Page> {
 			gen.writeObjectFieldStart(elementsBlock);
 			{
 				gen.writeNumberField(elementsTotal, page.getTotalElements());
-				gen.writeNumberField(elementsOnPage, page.getNumberOfElements());
+				gen.writeNumberField(elementsExposed, page.getNumberOfElements());
 			}
 			gen.writeEndObject();
 

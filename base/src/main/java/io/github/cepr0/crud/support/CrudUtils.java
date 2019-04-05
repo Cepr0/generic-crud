@@ -16,6 +16,7 @@
 
 package io.github.cepr0.crud.support;
 
+import org.springframework.beans.BeanUtils;
 import org.springframework.beans.BeansException;
 import org.springframework.beans.FatalBeanException;
 import org.springframework.lang.NonNull;
@@ -26,13 +27,31 @@ import java.lang.reflect.Method;
 import java.lang.reflect.Modifier;
 import java.util.Arrays;
 import java.util.List;
+import java.util.Objects;
 import java.util.stream.Collectors;
 
 import static org.springframework.beans.BeanUtils.getPropertyDescriptor;
 import static org.springframework.beans.BeanUtils.getPropertyDescriptors;
 
+/**
+ * A set of utility methods used in the library.
+ *
+ * @author Sergei Poznanski
+ */
 public abstract class CrudUtils {
 
+	/**
+	 * A variant of the {@link BeanUtils#copyProperties},
+	 * which copy only non null properties of the source bean to the target bean.
+	 *
+	 * @param source the source bean, must not be {@code null}
+	 * @param target the target bean, must not be {@code null}
+	 * @param ignoredProperties array of property names to ignore
+	 * @param <S> type of the source bean
+	 * @param <T> type of the target bean
+	 * @return target bean, will never be {@code null}
+	 * @throws BeansException if the copying failed
+	 */
 	@NonNull
 	public static <S, T> T copyNonNullProperties(@NonNull final S source, @NonNull final T target, String... ignoredProperties) throws BeansException {
 
@@ -75,11 +94,23 @@ public abstract class CrudUtils {
 		return target;
 	}
 
+	/**
+	 * Takes the first word of the given 'CamelCase' string.
+	 *
+	 * @param camelCaseString given 'CamelCase' string, must not be {@code null}
+	 * @return return the first word of the given string
+	 */
 	@NonNull
 	public static String firstWordOf(@NonNull final String camelCaseString) {
 		return splitCamelCase(camelCaseString)[0].toLowerCase();
 	}
 
+	/**
+	 * Converts a given 'CamelCase' string to the 'snake_case' variant.
+	 *
+	 * @param camelCaseString given 'CamelCase' string, must not be {@code null}
+	 * @return the 'snake_case' string
+	 */
 	@NonNull
 	public static String toSnakeCase(@NonNull final String camelCaseString) {
 		return Arrays.stream(splitCamelCase(camelCaseString))
@@ -87,8 +118,15 @@ public abstract class CrudUtils {
 				.collect(Collectors.joining("_"));
 	}
 
+	/**
+	 * Splits a given 'CamelCase' string to the array of its lower-cased words.
+	 *
+	 * @param camelCaseString given 'CamelCase' string, must not be {@code null}
+	 * @return the array of its lower-cased words
+	 */
 	@NonNull
 	public static String[] splitCamelCase(@NonNull final String camelCaseString) {
+		Objects.requireNonNull(camelCaseString, "The parameter 'camelCaseString' must not be null!");
 		// https://stackoverflow.com/a/7594052
 		return camelCaseString.split("(?<!(^|[A-Z]))(?=[A-Z])|(?<!^)(?=[A-Z][a-z])");
 	}

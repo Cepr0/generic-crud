@@ -16,10 +16,22 @@
 
 package io.github.cepr0.crud.dto;
 
-import org.springframework.lang.Nullable;
+import org.springframework.lang.NonNull;
 
 import java.io.Serializable;
 
+/**
+ * Marker interface for all output (response) DTO, related to the persisted entities which CRUD operations are used for.
+ *
+ * @param <ID> a related entity identifier type
+ *
+ * @author Serhei Poznanski
+ */
 public interface CrudResponse<ID extends Serializable> extends Serializable {
-	@Nullable ID getId();
+	/**
+	 * Returns the identifier of the related persisted entity.
+	 *
+	 * @return the entity identifier, never be {@code null}.
+	 */
+	@NonNull ID getId();
 }

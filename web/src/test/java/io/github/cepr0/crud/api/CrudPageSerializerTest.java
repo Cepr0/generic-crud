@@ -57,7 +57,7 @@ public class CrudPageSerializerTest {
 	private String pageFirst = "first";
 	private String pageLast = "last";
 	private String elementsTotal = "total";
-	private String elementsCurrent = "current";
+	private String elementsExposed = "exposed";
 
 	@Before
 	public void setUp() throws Exception {
@@ -136,7 +136,7 @@ public class CrudPageSerializerTest {
 
 			elementsBlock = "custom_elements";
 			elementsTotal = "custom_total";
-			elementsOnPage = "custom_current";
+			elementsExposed = "custom_exposed";
 
 			sortBlock = "custom_sort";
 			sortedProperty = "custom_property";
@@ -155,7 +155,7 @@ public class CrudPageSerializerTest {
 		pageLast = serializer.pageLast;
 
 		elementsTotal = serializer.elementsTotal;
-		elementsCurrent = serializer.elementsOnPage;
+		elementsExposed = serializer.elementsExposed;
 
 		testSerialize(
 				new TestResponse().setName("name1"),
@@ -188,7 +188,7 @@ public class CrudPageSerializerTest {
 		assertThat(pageNode.fieldNames()).containsOnly(pageNumber, pageSize, pageTotal, pageFirst, pageLast);
 
 		JsonNode elementsNode = rootNode.get(elementsBlock);
-		assertThat(elementsNode.fieldNames()).containsOnly(elementsTotal, elementsCurrent);
+		assertThat(elementsNode.fieldNames()).containsOnly(elementsTotal, elementsExposed);
 	}
 
 	@Accessors(chain = true)
