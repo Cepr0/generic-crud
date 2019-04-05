@@ -18,10 +18,25 @@ package io.github.cepr0.crud.model;
 
 import java.io.Serializable;
 
+/**
+ * Abstract class for the entities which should work in JPA environment.
+ * It base only on identifier of the entity, and its {@code equals} and {@code hashCode} methods behave consistently
+ * across all entity state transitions (according to
+ * <a href="https://vladmihalcea.com/how-to-implement-equals-and-hashcode-using-the-jpa-entity-identifier/">
+ *    Vlad Mihalcea
+ * </a>).
+ * <br/>
+ * This class inherit {@link IdentifiableEntity}, so you can use it to extend your entity from it.
+ *
+ * @param <ID> type of the entity identifier
+ *
+ * @author Sergei Poznanski
+ */
 public abstract class JpaEntity<ID extends Serializable> implements IdentifiableEntity<ID> {
+
 	@Override
 	public String toString() {
-		return getClass().getSimpleName() + "{id=" + getId() + '}';
+		return getClass().getSimpleName() + "{id=" + getId() + "}";
 	}
 
 	@Override

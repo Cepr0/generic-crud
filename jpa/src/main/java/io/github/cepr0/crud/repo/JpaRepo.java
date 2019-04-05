@@ -32,6 +32,14 @@ import java.util.List;
 import java.util.Objects;
 import java.util.Optional;
 
+/**
+ * Implementation of {@link CrudRepo} which extends {@link JpaRepository} and all it functionality.
+ *
+ * @param <T> type of the entity which extends {@link IdentifiableEntity}
+ * @param <ID> type of the entity identifier
+ *
+ * @author Sergei Poznanski
+ */
 @Transactional
 @NoRepositoryBean
 public interface JpaRepo<T extends IdentifiableEntity<ID>, ID extends Serializable> extends CrudRepo<T, ID>, JpaRepository<T, ID> {
