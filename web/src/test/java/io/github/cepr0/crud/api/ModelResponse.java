@@ -14,15 +14,18 @@
  * limitations under the License.
  */
 
-package io.github.cepr0.demo;
+package io.github.cepr0.crud.api;
 
-import io.github.cepr0.crud.api.CrudPageSerializer;
-import org.springframework.boot.jackson.JsonComponent;
+import io.github.cepr0.crud.dto.CrudResponse;
+import lombok.Data;
+import lombok.experimental.Accessors;
 
-@JsonComponent
-public class CustomPageSerializer extends CrudPageSerializer {
-	public CustomPageSerializer() {
-		elementsExposed = "on_page";
-		contentAliasMode = ContentAliasMode.FIRST_WORD;
-	}
+/**
+ * @author Sergei Poznanski
+ */
+@Accessors(chain = true)
+@Data
+public class ModelResponse implements CrudResponse<Integer> {
+	private Integer id;
+	private String name;
 }

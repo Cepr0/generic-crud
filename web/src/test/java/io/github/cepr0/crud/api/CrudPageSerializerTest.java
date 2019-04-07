@@ -38,6 +38,9 @@ import java.util.List;
 import static java.util.Arrays.asList;
 import static org.assertj.core.api.Assertions.assertThat;
 
+/**
+ * @author Sergei Poznanski
+ */
 public class CrudPageSerializerTest {
 
 	private Writer writer;

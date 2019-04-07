@@ -90,8 +90,8 @@ public class ModelController extends AbstractCrudController<Model, Long, ModelRe
     
     @GetMapping
     @Override
-    public ResponseEntity<Page<ModelResponse>> getAll(Pageable pageable) {
-        return super.getAll(pageable);
+    public ResponseEntity<List<ModelResponse>> getAll() {
+        return super.getAll();
     }
 }
 ``` 

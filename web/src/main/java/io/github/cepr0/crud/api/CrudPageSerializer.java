@@ -75,7 +75,8 @@ import java.util.List;
  * Note that if the value of "content" or "sort" fields is empty, then these fields are not displayed.
  * <p>
  * To use the serializer you can simple inherit it and register with {@code @JsonComponent} annotation
- * or you can register right this serializer in {@code WebMvcConfigurer} (see an example in the {@code demo} module).
+ * or you can register right this serializer in {@code WebMvcConfigurer}
+ * (see an example in {@code AbstractCrudControllerTest.TestConfig}).
  *
  * @author Sergei Poznanski
  */
