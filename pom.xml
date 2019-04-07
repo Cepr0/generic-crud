@@ -25,7 +25,8 @@
     <packaging>pom</packaging>
 
     <name>Generic-CRUD</name>
-    <description>Abstract CRUD operations for Spring related projects</description>
+    <description>A library that reduces the writing of the boilerplate code for CRUD operations in Spring web applications</description>
+    <url>https://github.com/Cepr0/generic-crud-new</url>
 
     <licenses>
         <license>
@@ -43,12 +44,17 @@
         </developer>
     </developers>
 
+    <scm>
+        <connection>scm:git:git://github.com/Cepr0/generic-crud-new.git</connection>
+        <developerConnection>scm:git:ssh://github.com:Cepr0/generic-crud-new.git</developerConnection>
+        <url>https://github.com/Cepr0/generic-crud-new/tree/master/</url>
+    </scm>
+
     <modules>
         <module>model</module>
         <module>base</module>
         <module>jpa</module>
         <module>web</module>
-        <module>demo</module>
     </modules>
 
     <properties>
@@ -104,6 +110,41 @@
             </dependency>
         </dependencies>
     </dependencyManagement>
+
+    <profiles>
+        <profile>
+            <id>release</id>
+            <build>
+                <plugins>
+                    <plugin>
+                        <groupId>org.apache.maven.plugins</groupId>
+                        <artifactId>maven-source-plugin</artifactId>
+                        <executions>
+                            <execution>
+                                <id>attach-sources</id>
+                                <goals>
+                                    <goal>jar</goal>
+                                </goals>
+                            </execution>
+                        </executions>
+                    </plugin>
+
+                    <plugin>
+                        <groupId>org.apache.maven.plugins</groupId>
+                        <artifactId>maven-javadoc-plugin</artifactId>
+                        <executions>
+                            <execution>
+                                <id>attach-javadoc</id>
+                                <goals>
+                                    <goal>jar</goal>
+                                </goals>
+                            </execution>
+                        </executions>
+                    </plugin>
+                </plugins>
+            </build>
+        </profile>
+    </profiles>
 
     <build>
         <plugins>
