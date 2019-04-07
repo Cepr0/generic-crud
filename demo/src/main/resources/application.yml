@@ -1,26 +1,23 @@
 logging:
   level:
     jdbc:
-      sqlonly: fatal
-      resultsettable: info
       sqltiming: info
+      resultsettable: info
+      sqlonly: fatal
       audit: fatal
       resultset: fatal
       connection: fatal
     org:
       springframework:
-        orm: debug
-#      hibernate:
-#        stat: debug
+        orm.jpa: debug
+        web: error
 
 log4jdbc:
-  dump:
-    sql:
-      addsemicolon: true
-      maxlinelength: 0
-  trim:
-    sql:
-      extrablanklines: false
+  dump.sql:
+    addsemicolon: true
+    maxlinelength: 0
+  trim.sql:
+    extrablanklines: false
 
 spring:
   jpa:

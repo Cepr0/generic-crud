@@ -108,16 +108,22 @@ You can install the library to your project with help of [JitPack](https://jitpa
     </repository>
 </repositories>
 
+<properties>
+    <!-- ... -->
+    <mapstruct.version>1.3.0.Final</mapstruct.version>
+    <generic-crud.version>0.0.5-SNAPSHOT</generic-crud.version>
+</properties>   
+
 <dependensies>
     <dependency>
         <groupId>com.github.Cepr0.generic-crud-new</groupId>
         <artifactId>generic-crud-web</artifactId>
-        <version>0.0.4-SNAPSHOT</version>
+        <version>${generic-crud.version}</version>
     </dependency>
     <dependency>
         <groupId>com.github.Cepr0.generic-crud-new</groupId>
         <artifactId>generic-crud-jpa</artifactId>
-        <version>0.0.4-SNAPSHOT</version>
+        <version>${generic-crud.version}</version>
     </dependency>
 </dependensies>
 ```
@@ -130,7 +136,7 @@ The library is used [MapStruct](http://mapstruct.org) framework, so you must add
     <dependency>
         <groupId>org.mapstruct</groupId>
         <artifactId>mapstruct</artifactId>
-        <version>${org.mapstruct.version}</version>
+        <version>${mapstruct.version}</version>
         <scope>provided</scope>
     </dependency>
     
@@ -147,7 +153,7 @@ The library is used [MapStruct](http://mapstruct.org) framework, so you must add
                     <path>
                         <groupId>org.mapstruct</groupId>
                         <artifactId>mapstruct-processor</artifactId>
-                        <version>${org.mapstruct.version}</version>
+                        <version>${mapstruct.version}</version>
                     </path>
                     <path>
                         <groupId>org.projectlombok</groupId>
