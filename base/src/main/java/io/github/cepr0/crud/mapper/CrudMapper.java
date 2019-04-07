@@ -51,7 +51,8 @@ import static org.mapstruct.NullValuePropertyMappingStrategy.IGNORE;
 		nullValueMappingStrategy = RETURN_DEFAULT,
 		nullValueCheckStrategy = ALWAYS,
 		nullValuePropertyMappingStrategy = IGNORE,
-		unmappedTargetPolicy = ReportingPolicy.IGNORE
+		unmappedTargetPolicy = ReportingPolicy.IGNORE,
+		componentModel = "spring"
 )
 public interface CrudMapper<T extends IdentifiableEntity, Q extends CrudRequest, S extends CrudResponse> {
 

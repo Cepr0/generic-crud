@@ -20,7 +20,6 @@ import io.github.cepr0.crud.model.IdentifiableEntity;
 import io.github.cepr0.crud.repo.JpaRepo;
 import org.springframework.data.jpa.repository.support.SimpleJpaRepository;
 import org.springframework.lang.NonNull;
-import org.springframework.lang.Nullable;
 
 import java.io.Serializable;
 import java.util.Collection;
@@ -32,12 +31,12 @@ import static java.util.stream.Collectors.toList;
 import static java.util.stream.Collectors.toSet;
 
 /**
- * Mapper between the entity id and the entity or its reference (see method {@link SimpleJpaRepository#getOne}).<br/>
+ * Mapper between the entity id and the persisted entity or its reference (see method {@link SimpleJpaRepository#getOne}).<br/>
  * You can use it in your {@link CrudMapper}s to provide them with the necessary methods (see {@code PersonMapper}
  * and {@code CarMapper} in the {@code demo} module).<br/><br/>
  * It's also a functional interface so you can simple instantiate it in your code with lambda. For example:
  * <pre>
- *    ReferenceMapper&lt;User, Long&gt; refMapper = () -> repo;
+ *    {@code ReferenceMapper<User, Long> refMapper = () -> repo;}
  * </pre>
  *
  * @param <T> type of the entity which extends {@link IdentifiableEntity}
@@ -74,10 +73,10 @@ public interface ReferenceMapper<T extends IdentifiableEntity<ID>, ID extends Se
 	 * @param entity must not be {@code null}
 	 * @return the entity id
 	 */
-	@Nullable
+	@NonNull
 	default ID toId(@NonNull T entity) {
 		Objects.requireNonNull(entity, "The entity must not be null!");
-		return entity.getId();
+		return Objects.requireNonNull(entity.getId(), "The entity id must not be null!");
 	}
 
 	/**

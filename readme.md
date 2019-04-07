@@ -1,11 +1,8 @@
-## Generic CRUD
+## Generic-CRUD
 
-[![](https://jitpack.io/v/Cepr0/generic-crud-new.svg)](https://jitpack.io/#Cepr0/generic-crud-new)
-
-
-**Generic-CRUD** is a handy library that can help exclude writing of boilerplate code for **CRUD** operations 
-in Spring web applications. It implements a full set of base operations with a database to create, read, update 
-and delete your entities.
+**Generic-CRUD** is a handy small library that can help exclude writing of boilerplate code for **CRUD** operations 
+in Spring web applications. It implements a full set of base operations with a database to **C**reate, **R**ead, **U**pdate 
+and **D**elete your entities.
 
 ### Usage example
 
@@ -41,15 +38,12 @@ public class ModelResponse implements CrudResponse<Long> {
 ```
 4. Prepare a mapper between the entity and its DTOs:
 ```java
-@Mapper(
-    nullValueCheckStrategy = ALWAYS,
-    nullValueMappingStrategy = RETURN_DEFAULT,
-    nullValuePropertyMappingStrategy = IGNORE
-)
+@Mapper(config = CrudMapper.class)
 public abstract class ModelMapper implements CrudMapper<Model, ModelRequest, ModelResponse> {
 }
 ```
-(The library relies on [MapStruct](http://mapstruct.org/) framework to build the mappers.)  
+Note that you should use 'CrudMapper.class' to config your mapper. The library uses [MapStruct](http://mapstruct.org/) framework, 
+so you should add it dependency to your project.  
 
 5. Prepare a service which will serve your DTOs and entities:
 ```java
@@ -72,31 +66,31 @@ public class ModelController extends AbstractCrudController<Model, Long, ModelRe
     
     @PostMapping
     @Override
-    public ModelResponse create(@Valid @RequestBody @NonNull final ModelRequest request) {
+    public ResponseEntity<ModelResponse> create(@Valid @RequestBody @NonNull final ModelRequest request) {
         return super.create(request);
     }
     
     @PatchMapping("/{id}")
     @Override
-    public ResponseEntity<?> update(@PathVariable("id") @NonNull final Long id, @Valid @RequestBody @NonNull final ModelRequest request) {
+    public ResponseEntity<ModelResponse> update(@PathVariable("id") @NonNull final Long id, @Valid @RequestBody @NonNull final ModelRequest request) {
         return super.update(id, request);
     }
     
     @DeleteMapping("/{id}")
     @Override
-    public ResponseEntity<?> delete(@PathVariable("id") @NonNull final Long id) {
+    public ResponseEntity delete(@PathVariable("id") @NonNull final Long id) {
         return super.delete(id);
     }
     
     @GetMapping("/{id}")
     @Override
-    public ResponseEntity<?> getOne(@PathVariable("id") @NonNull final Long id) {
+    public ResponseEntity<ModelResponse> getOne(@PathVariable("id") @NonNull final Long id) {
         return super.getOne(id);
     }
     
     @GetMapping
     @Override
-    public Page<ModelResponse> getAll(Pageable pageable) {
+    public ResponseEntity<Page<ModelResponse>> getAll(Pageable pageable) {
         return super.getAll(pageable);
     }
 }
@@ -115,19 +109,59 @@ You can install the library to your project with help of [JitPack](https://jitpa
 </repositories>
 
 <dependensies>
-	<dependency>
-	    <groupId>com.github.Cepr0.generic-crud-new</groupId>
-	    <artifactId>generic-crud-web</artifactId>
-	    <version>0.0.4-SNAPSHOT</version>
-	</dependency>
-	<dependency>
-	    <groupId>com.github.Cepr0.generic-crud-new</groupId>
-	    <artifactId>generic-crud-jpa</artifactId>
-	    <version>0.0.4-SNAPSHOT</version>
-	</dependency>
+    <dependency>
+        <groupId>com.github.Cepr0.generic-crud-new</groupId>
+        <artifactId>generic-crud-web</artifactId>
+        <version>0.0.4-SNAPSHOT</version>
+    </dependency>
+    <dependency>
+        <groupId>com.github.Cepr0.generic-crud-new</groupId>
+        <artifactId>generic-crud-jpa</artifactId>
+        <version>0.0.4-SNAPSHOT</version>
+    </dependency>
 </dependensies>
 ```
 
+The library is used [MapStruct](http://mapstruct.org) framework, so you must add its dependency to your project as well:
+```xml
+<dependensies>
+    <!-- ... -->
+    
+    <dependency>
+        <groupId>org.mapstruct</groupId>
+        <artifactId>mapstruct</artifactId>
+        <version>${org.mapstruct.version}</version>
+        <scope>provided</scope>
+    </dependency>
+    
+    <!-- ... -->    
+</dependensies>
+
+<build>
+    <plugins>
+        <plugin>
+            <groupId>org.apache.maven.plugins</groupId>
+            <artifactId>maven-compiler-plugin</artifactId>
+            <configuration>
+                <annotationProcessorPaths>
+                    <path>
+                        <groupId>org.mapstruct</groupId>
+                        <artifactId>mapstruct-processor</artifactId>
+                        <version>${org.mapstruct.version}</version>
+                    </path>
+                    <path>
+                        <groupId>org.projectlombok</groupId>
+                        <artifactId>lombok</artifactId>
+                        <version>${lombok.version}</version>
+                    </path>
+                </annotationProcessorPaths>
+            </configuration>
+        </plugin>
+    </plugins>
+</build>
+```
+Note that the second 'path' section is necessary only if you are using [Lombok](https://projectlombok.org/) in your project. 
+
 ## Demo Application
 
-You can find the demo application with the library usage example in the **demo** module.
+You can find a comprehensive example of the library usage in the **[demo](/demo)** module.

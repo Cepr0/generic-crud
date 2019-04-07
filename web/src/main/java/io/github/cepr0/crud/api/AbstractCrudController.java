@@ -30,7 +30,7 @@ import java.io.Serializable;
 import java.util.List;
 
 /**
- * Simple base controller which provides CRUD operations for {@link IdentifiableEntity} entities,
+ * Base controller which provides CRUD operations for {@link IdentifiableEntity} entities,
  * {@link CrudRequest} requests and {@link CrudResponse} responses.
  *
  * @param <T> type of the entity which extends {@link IdentifiableEntity}
@@ -40,7 +40,7 @@ import java.util.List;
  *
  * @author Sergei Poznanski
  */
-public class AbstractCrudController<T extends IdentifiableEntity<ID>, ID extends Serializable, Q extends CrudRequest, S extends CrudResponse<ID>> {
+public abstract class AbstractCrudController<T extends IdentifiableEntity<ID>, ID extends Serializable, Q extends CrudRequest, S extends CrudResponse<ID>> {
 
 	protected final CrudService<T, ID, Q, S> service;
 
