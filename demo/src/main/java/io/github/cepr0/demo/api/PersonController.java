@@ -45,7 +45,7 @@ public class PersonController extends AbstractCrudController<Person, UUID, Perso
 	@JsonView(Views.ForPerson.class)
 	@PostMapping
 	@Override
-	public PersonResponse create(@Validated(OnCreate.class) @RequestBody @NonNull final PersonRequest request) {
+	public ResponseEntity<PersonResponse> create(@Validated(OnCreate.class) @RequestBody @NonNull final PersonRequest request) {
 		return super.create(request);
 	}
 
@@ -58,7 +58,7 @@ public class PersonController extends AbstractCrudController<Person, UUID, Perso
 
 	@DeleteMapping("/{id}")
 	@Override
-	public ResponseEntity delete(@PathVariable("id") @NonNull final UUID id) {
+	public ResponseEntity<?> delete(@PathVariable("id") @NonNull final UUID id) {
 		return super.delete(id);
 	}
 
@@ -72,7 +72,7 @@ public class PersonController extends AbstractCrudController<Person, UUID, Perso
 	@JsonView(Views.ForPerson.class)
 	@GetMapping
 	@Override
-	public Page<PersonResponse> getAll(Pageable pageable) {
+	public ResponseEntity<Page<PersonResponse>> getAll(Pageable pageable) {
 		return super.getAll(pageable);
 	}
 }

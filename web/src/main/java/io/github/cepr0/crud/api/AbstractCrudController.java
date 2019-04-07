@@ -23,14 +23,23 @@ import io.github.cepr0.crud.service.CrudService;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
-import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.lang.NonNull;
-import org.springframework.web.bind.annotation.ResponseStatus;
 
 import java.io.Serializable;
 import java.util.List;
 
+/**
+ * Simple base controller which provides CRUD operations for {@link IdentifiableEntity} entities,
+ * {@link CrudRequest} requests and {@link CrudResponse} responses.
+ *
+ * @param <T> type of the entity which extends {@link IdentifiableEntity}
+ * @param <ID> type of the entity identifier
+ * @param <Q> type of the input (request) DTO
+ * @param <S> type of the output (response) DTO
+ *
+ * @author Sergei Poznanski
+ */
 public class AbstractCrudController<T extends IdentifiableEntity<ID>, ID extends Serializable, Q extends CrudRequest, S extends CrudResponse<ID>> {
 
 	protected final CrudService<T, ID, Q, S> service;
@@ -39,17 +48,38 @@ public class AbstractCrudController<T extends IdentifiableEntity<ID>, ID extends
 		this.service = service;
 	}
 
-	@ResponseStatus(HttpStatus.CREATED)
+	/**
+	 * Creates an entity based on its input (request) DTO.
+	 *
+	 * @param request must not be {@code null}
+	 * @return {@link ResponseEntity} with output (response) DTO as a body of the created entity,
+	 * and 201 (Created) HTTP status
+	 */
 	@NonNull
-	public S create(@NonNull final Q request) {
-		return service.create(request);
+	public ResponseEntity<S> create(@NonNull final Q request) {
+		return ResponseEntity.created(null).body(service.create(request));
 	}
 
+	/**
+	 * Updates an entity by its id, with provided input (request) DTO.
+	 *
+	 * @param id must not be {@code null}
+	 * @param request must not be {@code null}
+	 * @return {@link ResponseEntity} with output (response) DTO of the updated entity as a body,
+	 * 200 (Ok) HTTP status if the entity was found, and 404 (Not Found) - otherwise.
+	 */
 	@NonNull
 	public ResponseEntity<S> update(@NonNull final ID id, @NonNull final Q request) {
 		return ResponseEntity.of(service.update(id, request));
 	}
 
+	/**
+	 * Deletes an entity by its id.
+	 *
+	 * @param id must not be {@code null}
+	 * @return {@link ResponseEntity} with empty body,
+	 * and 204 (No Content) HTTP status if the entity was found, and 404 (Not Found) - otherwise.
+	 */
 	@NonNull
 	public ResponseEntity delete(@NonNull final ID id) {
 		if (service.delete(id)) {
@@ -59,23 +89,47 @@ public class AbstractCrudController<T extends IdentifiableEntity<ID>, ID extends
 		}
 	}
 
+	/**
+	 * Retrieves the entity by its id.
+	 *
+	 * @param id must not be {@code null}
+	 * @return {@link ResponseEntity} with output (response) DTO of the found entity as a body,
+	 * 200 (Ok) HTTP status if the entity was found, and 404 (Not Found) - otherwise.
+	 */
 	@NonNull
 	public ResponseEntity<S> getOne(@NonNull final ID id) {
 		return ResponseEntity.of(service.getOne(id));
 	}
 
+	/**
+	 * Retrieves a {@link Page} of output (response) DTOs meeting the paging restriction provided in the {@code Pageable} object.
+	 *
+	 * @param pageable pageable must not be {@code null}
+	 * @return {@link ResponseEntity} with a page of output (response) DTOs as a body, and with 200 (Ok) HTTP status
+	 */
 	@NonNull
-	public Page<S> getAll(@NonNull final Pageable pageable) {
-		return service.getAll(pageable);
+	public ResponseEntity<Page<S>> getAll(@NonNull final Pageable pageable) {
+		return ResponseEntity.ok(service.getAll(pageable));
 	}
 
+	/**
+	 * Retrieves all entities sorted by the given sort parameter.
+	 *
+	 * @param sort must not be {@code null}
+	 * @return {@link ResponseEntity} with a list of output (response) DTOs as a body, and with 200 (Ok) HTTP status
+	 */
 	@NonNull
-	public List<S> getAll(@NonNull final Sort sort) {
-		return service.getAll(sort);
+	public ResponseEntity<List<S>> getAll(@NonNull final Sort sort) {
+		return ResponseEntity.ok(service.getAll(sort));
 	}
 
+	/**
+	 * Retrieves all entities.
+	 *
+	 * @return {@link ResponseEntity} with a list of output (response) DTOs as a body, and with 200 (Ok) HTTP status
+	 */
 	@NonNull
-	public List<S> getAll() {
-		return service.getAll();
+	public ResponseEntity<List<S>> getAll() {
+		return ResponseEntity.ok(service.getAll());
 	}
 }

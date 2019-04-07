@@ -83,7 +83,7 @@ public interface CrudService<T extends IdentifiableEntity<ID>, ID extends Serial
 	@NonNull boolean delete(@NonNull ID id);
 
 	/**
-	 * Returns output (response) DTO of the related entity by its id.
+	 * Retrieves an entity by its id.
 	 *
 	 * @param id must not be {@code null}
 	 * @return output (response) DTO related to the found entity or {@code Optional#empty()} if none found
@@ -99,7 +99,7 @@ public interface CrudService<T extends IdentifiableEntity<ID>, ID extends Serial
 	@NonNull Optional<T> getOneT(@NonNull ID id);
 
 	/**
-	 * Retrieves output (response) DTOs of all related entities.
+	 * Retrieves all entities.
 	 *
 	 * @return a list of output (response) DTOs of all related entities, will never be {@code null}
 	 */
@@ -113,10 +113,10 @@ public interface CrudService<T extends IdentifiableEntity<ID>, ID extends Serial
 	@NonNull List<T> getAllT();
 
 	/**
-	 * Retrieves a {@link Page} of output (response) DTOs meeting the paging restriction provided in the {@code Pageable} object.
+	 * Retrieves a {@link Page} of entities meeting the paging restriction provided in the {@code Pageable} object.
 	 *
 	 * @param pageable must not be {@code null}
-	 * @return a page of DTO
+	 * @return a page of output (response) DTOs
 	 */
 	@NonNull Page<S> getAll(@NonNull Pageable pageable);
 
@@ -129,7 +129,7 @@ public interface CrudService<T extends IdentifiableEntity<ID>, ID extends Serial
 	@NonNull Page<T> getAllT(@NonNull Pageable pageable);
 
 	/**
-	 * Retrieves output (response) DTOs of all related entities sorted by the given sort parameter.
+	 * Retrieves all entities sorted by the given sort parameter.
 	 *
 	 * @param sort must not be {@code null}
 	 * @return a sorted list of output (response) DTOs of all related entities

@@ -44,7 +44,7 @@ public class CarController extends AbstractCrudController<Car, UUID, CarRequest,
 	@JsonView(Views.ForCar.class)
 	@PostMapping
 	@Override
-	public CarResponse create(@Validated(OnCreate.class) @RequestBody @NonNull final CarRequest request) {
+	public ResponseEntity<CarResponse> create(@Validated(OnCreate.class) @RequestBody @NonNull final CarRequest request) {
 		return super.create(request);
 	}
 
@@ -57,7 +57,7 @@ public class CarController extends AbstractCrudController<Car, UUID, CarRequest,
 
 	@DeleteMapping("/{id}")
 	@Override
-	public ResponseEntity delete(@PathVariable("id") @NonNull final UUID id) {
+	public ResponseEntity<?> delete(@PathVariable("id") @NonNull final UUID id) {
 		return super.delete(id);
 	}
 
@@ -71,7 +71,7 @@ public class CarController extends AbstractCrudController<Car, UUID, CarRequest,
 	@JsonView(Views.ForCar.class)
 	@GetMapping
 	@Override
-	public List<CarResponse> getAll() {
+	public ResponseEntity<List<CarResponse>> getAll() {
 		return super.getAll();
 	}
 }

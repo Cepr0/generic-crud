@@ -28,11 +28,69 @@ import org.springframework.data.domain.Sort;
 import java.io.IOException;
 import java.util.List;
 
+/**
+ * A customizable {@link Page} serializer. It provides the flowing view:
+ * <pre>
+ * {
+ *     "users": [
+ *         {
+ *             "id": 1,
+ *             "name": "user1"
+ *         },
+ *         {
+ *             "id": 2,
+ *             "name": "user2"
+ *         }
+ *     ],
+ *     "page": {
+ *         "number": 0,
+ *         "size": 20,
+ *         "total": 1,
+ *         "first": true,
+ *         "last": true
+ *     },
+ *     "elements": {
+ *         "total": 2,
+ *         "exposed": 2
+ *     },
+ *     "sort": [
+ *         {
+ *             "property": "name",
+ *             "direction": "ASC"
+ *         }
+ *     ]
+ * }
+ * </pre>
+ * (where 'users' is "content" field)<br/><br/>
+ * <p>
+ * You can set custom names of every fields of this view by inheriting this serializer
+ * and changing the value of the corresponding protected fields (see the source code of the serializer).
+ * <p>
+ * To change the plural name of the "content" field (e.g. 'users' in the example above) you can use
+ * the {@link ContentAlias} annotation, and place it on the "content" class (e.g. 'UserResponse'),
+ * and/or change the value of {@link CrudPageSerializer#contentAliasMode} property.
+ * The {@link ContentAlias} value has a higher priority (if it set),
+ * then the {@link CrudPageSerializer#contentAliasMode} value is taken into consideration.
+ * <p>
+ * Note that if the value of "content" or "sort" fields is empty, then these fields are not displayed.
+ * <p>
+ * To use the serializer you can simple inherit it and register with {@code @JsonComponent} annotation
+ * or you can register right this serializer in {@code WebMvcConfigurer} (see an example in the {@code demo} module).
+ *
+ * @author Sergei Poznanski
+ */
 @SuppressWarnings("WeakerAccess")
 public class CrudPageSerializer extends JsonSerializer<Page> {
 
+	/**
+	 * Specifies which alias to use for "content" field in the serialized view.
+	 * Default value is {@link ContentAliasMode#FIRST_WORD}
+	 */
 	protected ContentAliasMode contentAliasMode = ContentAliasMode.FIRST_WORD;
 
+	/**
+	 * Specifies the alias for "content" field in case of using the {@link ContentAliasMode#DEFAULT_NAME} mode.
+	 */
 	protected String defaultContentName = "content";
 
 	protected String pageBlock = "page";
@@ -123,7 +181,33 @@ public class CrudPageSerializer extends JsonSerializer<Page> {
 		return alias;
 	}
 
+	/**
+	 * Defines the mode of displaying the "content" field.
+	 */
 	public enum ContentAliasMode {
-		FIRST_WORD, SNAKE_CASE, CAMEL_CASE, DEFAULT_NAME
+
+		/**
+		 * The plural form of the first word of the "content" class is used. For example:<br/>
+		 * {@code UserResponse -> users}
+		 *
+		 */
+		FIRST_WORD,
+
+		/**
+		 * A "snake case" of the "content" class in the plural form is used. For example:<br/>
+		 * {@code UserResponse -> user_responses}
+		 */
+		SNAKE_CASE,
+
+		/**
+		 * A "camel case" of the "content" class in the plural form is used. For example:<br/>
+		 * {@code UserResponse -> UserResponses}
+		 */
+		CAMEL_CASE,
+
+		/**
+		 * The value of {@link CrudPageSerializer#defaultContentName} is used.
+		 */
+		DEFAULT_NAME
 	}
 }

@@ -14,11 +14,13 @@
  * limitations under the License.
  */
 
-package io.github.cepr0.demo.api;
+package io.github.cepr0.demo;
 
 import io.github.cepr0.crud.api.CrudPageSerializer;
 import org.springframework.boot.jackson.JsonComponent;
+import org.springframework.context.annotation.Profile;
 
+@Profile("json-component")
 @JsonComponent
 public class CustomPageSerializer extends CrudPageSerializer {
 	public CustomPageSerializer() {

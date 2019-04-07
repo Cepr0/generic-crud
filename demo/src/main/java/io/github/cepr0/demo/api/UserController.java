@@ -30,9 +30,16 @@ import org.springframework.lang.NonNull;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
+import java.net.URI;
+import java.util.Optional;
+
+import static io.github.cepr0.demo.api.UserController.USERS;
+
 @RestController
-@RequestMapping("users")
+@RequestMapping(USERS)
 public class UserController extends AbstractCrudController<User, Long, UserRequest, UserResponse> {
+
+	static final String USERS = "/users";
 
 	public UserController(@NonNull final UserService service) {
 		super(service);
@@ -40,8 +47,11 @@ public class UserController extends AbstractCrudController<User, Long, UserReque
 
 	@PostMapping
 	@Override
-	public UserResponse create(@Validated(OnCreate.class) @RequestBody @NonNull final UserRequest request) {
-		return super.create(request);
+	public ResponseEntity<UserResponse> create(@Validated(OnCreate.class) @RequestBody @NonNull final UserRequest request) {
+		ResponseEntity<UserResponse> response = super.create(request);
+		return Optional.ofNullable(response.getBody())
+				.map(body -> ResponseEntity.created(URI.create(USERS + "/" + body.getId())).body(body))
+				.orElse(response);
 	}
 
 	@PatchMapping("/{id}")
@@ -64,7 +74,7 @@ public class UserController extends AbstractCrudController<User, Long, UserReque
 
 	@GetMapping
 	@Override
-	public Page<UserResponse> getAll(Pageable pageable) {
+	public ResponseEntity<Page<UserResponse>> getAll(Pageable pageable) {
 		return super.getAll(pageable);
 	}
 }
