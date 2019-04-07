@@ -1,12 +1,13 @@
 ## Generic-CRUD
 
-**Generic-CRUD** is a handy small library that can help exclude writing of boilerplate code for **CRUD** operations 
-in Spring web applications. It implements a full set of base operations with a database to **C**reate, **R**ead, **U**pdate 
+**Generic-CRUD** is a small convenient modular library that allows you to simplify the development 
+of [Spring](https://spring.io/) web applications by reducing the writing of the boilerplate code for CRUD operations. 
+It implements a full set of base operations with a database to **C**reate, **R**ead, **U**pdate 
 and **D**elete your entities.
 
-### Usage example
+### Quick start
 
-1. Inherit your entity from the `IdentifiableEntity` interface or from the `JpaEntity` class:     
+1. Inherit your entity from abstract [JpaEntity](/jpa/src/main/java/io/github/cepr0/crud/model/JpaEntity.java) class:     
 ```java
 @Getter
 @Setter
@@ -19,11 +20,12 @@ public class Model extends JpaEntity<Long> {
     private String name;
 }
 ```
-2. Inherit your entity repo from the `JpaRepo`:
+2. Extend your entity repository from the [JpaRepo](/jpa/src/main/java/io/github/cepr0/crud/repo/JpaRepo.java):
 ```java
 public interface ModelRepo extends JpaRepo<Model, Long> {}
 ```
-3. Prepare request and response DTOs of your entity:
+3. Prepare request and response DTOs of your entity - inherit them from [CrudRequest](/base/src/main/java/io/github/cepr0/crud/dto/CrudRequest.java)
+and [CrudResponse](/base/src/main/java/io/github/cepr0/crud/dto/CrudResponse.java) interfaces:
 ```java
 @Data
 public class ModelRequest implements CrudRequest {
@@ -36,16 +38,17 @@ public class ModelResponse implements CrudResponse<Long> {
     private String name;
 }
 ```
-4. Prepare a mapper between the entity and its DTOs:
+4. Prepare a mapper between the entity and its DTOs based on [CrudMapper](/base/src/main/java/io/github/cepr0/crud/mapper/CrudMapper.java):
 ```java
 @Mapper(config = CrudMapper.class)
 public abstract class ModelMapper implements CrudMapper<Model, ModelRequest, ModelResponse> {
 }
 ```
-Note that you should use 'CrudMapper.class' to config your mapper. The library uses [MapStruct](http://mapstruct.org/) framework, 
-so you should add it dependency to your project.  
+The library uses [MapStruct](http://mapstruct.org/) framework, so you should add it dependency to your project.
+Note that you should use 'CrudMapper.class' to config your mapper.   
 
-5. Prepare a service which will serve your DTOs and entities:
+5. Prepare a service which will serve your DTOs and entities, extend it from 
+[AbstractCrudService](/base/src/main/java/io/github/cepr0/crud/service/AbstractCrudService.java):
 ```java
 @Service
 public class ModelService extends AbstractCrudService<Model, Long, ModelRequest, ModelResponse> {
@@ -54,7 +57,7 @@ public class ModelService extends AbstractCrudService<Model, Long, ModelRequest,
     }
 }
 ```
-6. And finally prepare a REST controller which will serve the CRUD requests of the entity:
+6. And finally extend your REST controller from [AbstractCrudController](/web/src/main/java/io/github/cepr0/crud/api/AbstractCrudController.java):
 ```java
 @RestController
 @RequestMapping("models")
@@ -95,7 +98,7 @@ public class ModelController extends AbstractCrudController<Model, Long, ModelRe
     }
 }
 ``` 
-Then your app is fully setup to perform CRUD operations with your entity.
+Then your application is fully setup to perform CRUD operations.
       
 ## Install 
 
@@ -128,7 +131,7 @@ You can install the library to your project with help of [JitPack](https://jitpa
 </dependensies>
 ```
 
-The library is used [MapStruct](http://mapstruct.org) framework, so you must add its dependency to your project as well:
+The library is used [MapStruct](http://mapstruct.org) framework, so you should add its dependency as well:
 ```xml
 <dependensies>
     <!-- ... -->
@@ -166,7 +169,8 @@ The library is used [MapStruct](http://mapstruct.org) framework, so you must add
     </plugins>
 </build>
 ```
-Note that the second 'path' section is necessary only if you are using [Lombok](https://projectlombok.org/) in your project. 
+Note that the second `path` in the `annotationProcessorPaths` section is necessary 
+if you are using [Lombok](https://projectlombok.org/) in your project. 
 
 ## Demo Application
 
