@@ -102,29 +102,21 @@ Then your application is fully setup to perform CRUD operations.
       
 ## Install 
 
-You can install the library to your project with help of [JitPack](https://jitpack.io/#Cepr0/generic-crud):
 ```xml
-<repositories>
-    <repository>
-        <id>jitpack.io</id>
-        <url>https://jitpack.io</url>
-    </repository>
-</repositories>
-
 <properties>
     <!-- ... -->
     <mapstruct.version>1.3.0.Final</mapstruct.version>
-    <generic-crud.version>0.0.5-SNAPSHOT</generic-crud.version>
+    <generic-crud.version>0.1.0</generic-crud.version>
 </properties>   
 
 <dependensies>
     <dependency>
-        <groupId>com.github.Cepr0.generic-crud-new</groupId>
+        <groupId>io.github.cepr0</groupId>
         <artifactId>generic-crud-web</artifactId>
         <version>${generic-crud.version}</version>
     </dependency>
     <dependency>
-        <groupId>com.github.Cepr0.generic-crud-new</groupId>
+        <groupId>io.github.cepr0</groupId>
         <artifactId>generic-crud-jpa</artifactId>
         <version>${generic-crud.version}</version>
     </dependency>
