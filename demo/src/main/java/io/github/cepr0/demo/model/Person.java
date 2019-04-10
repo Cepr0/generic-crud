@@ -31,6 +31,9 @@ import javax.persistence.OneToMany;
 import javax.persistence.Table;
 import java.util.Set;
 
+/**
+ * @author Sergei Poznanski
+ */
 @Getter
 @Setter
 @NoArgsConstructor

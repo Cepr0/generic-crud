@@ -22,6 +22,9 @@ import lombok.Data;
 
 import javax.validation.constraints.NotBlank;
 
+/**
+ * @author Sergei Poznanski
+ */
 @Data
 public class PersonRequest implements CrudRequest {
 	@NotBlank(groups = OnCreate.class)

@@ -26,6 +26,9 @@ import javax.persistence.MappedSuperclass;
 import javax.persistence.Version;
 import java.util.UUID;
 
+/**
+ * @author Sergei Poznanski
+ */
 @Getter
 @Setter
 @MappedSuperclass

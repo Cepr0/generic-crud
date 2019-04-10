@@ -21,5 +21,8 @@ import io.github.cepr0.demo.model.Person;
 
 import java.util.UUID;
 
+/**
+ * @author Sergei Poznanski
+ */
 public interface PersonRepo extends JpaRepo<Person, UUID> {
 }

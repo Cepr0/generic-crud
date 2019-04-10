@@ -24,6 +24,9 @@ import lombok.Data;
 import java.util.Set;
 import java.util.UUID;
 
+/**
+ * @author Sergei Poznanski
+ */
 @ContentAlias("people")
 @Data
 public class PersonResponse implements CrudResponse<UUID> {

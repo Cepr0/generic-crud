@@ -26,6 +26,9 @@ import org.hibernate.annotations.DynamicUpdate;
 
 import javax.persistence.*;
 
+/**
+ * @author Sergei Poznanski
+ */
 @Getter
 @Setter
 @NoArgsConstructor

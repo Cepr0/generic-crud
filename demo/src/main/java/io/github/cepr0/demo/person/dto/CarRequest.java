@@ -26,6 +26,9 @@ import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;
 import java.util.UUID;
 
+/**
+ * @author Sergei Poznanski
+ */
 @Data
 public class CarRequest implements CrudRequest {
 

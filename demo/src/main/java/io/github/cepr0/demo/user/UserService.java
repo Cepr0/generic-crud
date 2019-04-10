@@ -23,6 +23,9 @@ import io.github.cepr0.demo.user.dto.UserResponse;
 import org.springframework.lang.NonNull;
 import org.springframework.stereotype.Service;
 
+/**
+ * @author Sergei Poznanski
+ */
 @Service
 public class UserService extends AbstractCrudService<User, Long, UserRequest, UserResponse> {
 	public UserService(@NonNull final UserRepo repo, @NonNull final UserMapper mapper) {

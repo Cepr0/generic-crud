@@ -26,7 +26,11 @@ import org.hibernate.annotations.DynamicUpdate;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.Table;
+import java.time.Instant;
 
+/**
+ * @author Sergei Poznanski
+ */
 @Getter
 @Setter
 @NoArgsConstructor
@@ -38,4 +42,6 @@ public class User extends LongIdEntity {
 
 	@Column(nullable = false, length = 32)
 	private String name;
+
+	private Instant createdAt;
 }

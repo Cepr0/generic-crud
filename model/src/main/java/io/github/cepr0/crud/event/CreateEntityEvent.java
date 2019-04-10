@@ -16,19 +16,17 @@
 
 package io.github.cepr0.crud.event;
 
-
 import io.github.cepr0.crud.model.IdentifiableEntity;
-import org.springframework.lang.NonNull;
 
-public class DeleteEntityEvent<T extends IdentifiableEntity> {
-
-	private final T entity;
-
-	public DeleteEntityEvent(@NonNull final T entity) {
-		this.entity = entity;
-	}
-
-	public T getEntity() {
-		return entity;
+/**
+ * Defines 'create entity' event.
+ *
+ * @param <T> entity type
+ *
+ * @author Sergei Poznanski
+ */
+public class CreateEntityEvent<T extends IdentifiableEntity> extends EntityEvent<T> {
+	public CreateEntityEvent(final T entity) {
+		super(entity);
 	}
 }

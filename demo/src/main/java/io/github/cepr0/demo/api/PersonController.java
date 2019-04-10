@@ -34,6 +34,9 @@ import org.springframework.web.bind.annotation.*;
 
 import java.util.UUID;
 
+/**
+ * @author Sergei Poznanski
+ */
 @RestController
 @RequestMapping("people")
 public class PersonController extends AbstractCrudController<Person, UUID, PersonRequest, PersonResponse> {

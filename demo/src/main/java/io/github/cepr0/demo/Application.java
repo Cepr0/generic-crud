@@ -18,7 +18,12 @@ package io.github.cepr0.demo;
 
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
+import org.springframework.scheduling.annotation.EnableAsync;
 
+/**
+ * @author Sergei Poznanski
+ */
+@EnableAsync
 @SpringBootApplication
 public class Application {
 

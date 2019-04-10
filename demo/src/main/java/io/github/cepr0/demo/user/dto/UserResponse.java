@@ -19,8 +19,14 @@ package io.github.cepr0.demo.user.dto;
 import io.github.cepr0.crud.dto.CrudResponse;
 import lombok.Data;
 
+import java.time.Instant;
+
+/**
+ * @author Sergei Poznanski
+ */
 @Data
 public class UserResponse implements CrudResponse<Long> {
 	private Long id;
 	private String name;
+	private Instant createdAt;
 }

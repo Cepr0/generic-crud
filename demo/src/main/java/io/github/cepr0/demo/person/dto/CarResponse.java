@@ -23,6 +23,9 @@ import lombok.Data;
 
 import java.util.UUID;
 
+/**
+ * @author Sergei Poznanski
+ */
 @Data
 public class CarResponse implements CrudResponse<UUID> {
 	@JsonView(Views.ForPerson.class) private UUID id;

@@ -19,5 +19,8 @@ package io.github.cepr0.demo.user;
 import io.github.cepr0.crud.repo.JpaRepo;
 import io.github.cepr0.demo.model.User;
 
+/**
+ * @author Sergei Poznanski
+ */
 public interface UserRepo extends JpaRepo<User, Long> {
 }

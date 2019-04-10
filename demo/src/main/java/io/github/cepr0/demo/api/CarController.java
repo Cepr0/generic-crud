@@ -33,6 +33,9 @@ import org.springframework.web.bind.annotation.*;
 import java.util.List;
 import java.util.UUID;
 
+/**
+ * @author Sergei Poznanski
+ */
 @RestController
 @RequestMapping("cars")
 public class CarController extends AbstractCrudController<Car, UUID, CarRequest, CarResponse> {

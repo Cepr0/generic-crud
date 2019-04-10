@@ -24,6 +24,9 @@ import org.springframework.stereotype.Service;
 
 import java.util.UUID;
 
+/**
+ * @author Sergei Poznanski
+ */
 @Service
 public class PersonService extends AbstractCrudService<Person, UUID, PersonRequest, PersonResponse> {
 	public PersonService(final PersonRepo repo, final PersonMapper mapper) {

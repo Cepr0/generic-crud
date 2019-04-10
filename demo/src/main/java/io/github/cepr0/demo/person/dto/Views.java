@@ -16,6 +16,9 @@
 
 package io.github.cepr0.demo.person.dto;
 
+/**
+ * @author Sergei Poznanski
+ */
 public interface Views {
 	interface ForPerson {}
 	interface ForCar extends ForPerson {}

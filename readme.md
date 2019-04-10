@@ -106,10 +106,11 @@ Then your application is fully setup to perform CRUD operations.
 <properties>
     <!-- ... -->
     <mapstruct.version>1.3.0.Final</mapstruct.version>
-    <generic-crud.version>0.1.0</generic-crud.version>
+    <generic-crud.version>0.1.1</generic-crud.version>
 </properties>   
 
 <dependensies>
+    <!-- ... -->
     <dependency>
         <groupId>io.github.cepr0</groupId>
         <artifactId>generic-crud-web</artifactId>
@@ -120,21 +121,20 @@ Then your application is fully setup to perform CRUD operations.
         <artifactId>generic-crud-jpa</artifactId>
         <version>${generic-crud.version}</version>
     </dependency>
+    <!-- ... -->
 </dependensies>
 ```
 
 The library is used [MapStruct](http://mapstruct.org) framework, so you should add its dependency as well:
 ```xml
 <dependensies>
-    <!-- ... -->
-    
+    <!-- ... -->    
     <dependency>
         <groupId>org.mapstruct</groupId>
         <artifactId>mapstruct</artifactId>
         <version>${mapstruct.version}</version>
         <scope>provided</scope>
-    </dependency>
-    
+    </dependency>    
     <!-- ... -->    
 </dependensies>
 

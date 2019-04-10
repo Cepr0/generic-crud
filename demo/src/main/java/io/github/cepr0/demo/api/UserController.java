@@ -35,6 +35,9 @@ import java.util.Optional;
 
 import static io.github.cepr0.demo.api.UserController.USERS;
 
+/**
+ * @author Sergei Poznanski
+ */
 @RestController
 @RequestMapping(USERS)
 public class UserController extends AbstractCrudController<User, Long, UserRequest, UserResponse> {

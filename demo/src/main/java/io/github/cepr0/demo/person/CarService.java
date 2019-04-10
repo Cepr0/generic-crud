@@ -24,6 +24,9 @@ import org.springframework.stereotype.Service;
 
 import java.util.UUID;
 
+/**
+ * @author Sergei Poznanski
+ */
 @Service
 public class CarService extends AbstractCrudService<Car, UUID, CarRequest, CarResponse> {
 	public CarService(final CarRepo repo, final CarMapper mapper) {

@@ -25,6 +25,9 @@ import lombok.Getter;
 import org.mapstruct.Mapper;
 import org.springframework.beans.factory.annotation.Autowired;
 
+/**
+ * @author Sergei Poznanski
+ */
 @Mapper(config = CrudMapper.class)
 public abstract class UserMapper implements CrudMapper<User, UserRequest, UserResponse>, ReferenceMapper<User, Long> {
 	@Autowired @Getter private UserRepo repo;

@@ -27,6 +27,9 @@ import org.springframework.beans.factory.annotation.Autowired;
 
 import java.util.UUID;
 
+/**
+ * @author Sergei Poznanski
+ */
 @Mapper(config = CrudMapper.class, uses = PersonMapper.class)
 public abstract class CarMapper implements CrudMapper<Car, CarRequest, CarResponse>, ReferenceMapper<Car, UUID> {
 	@Autowired @Getter private CarRepo repo;
