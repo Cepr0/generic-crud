@@ -29,4 +29,5 @@ public class UserResponse implements CrudResponse<Long> {
 	private Long id;
 	private String name;
 	private Instant createdAt;
+	private Instant updatedAt;
 }

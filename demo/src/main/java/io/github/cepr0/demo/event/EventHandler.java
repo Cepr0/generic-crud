@@ -31,8 +31,6 @@ import org.springframework.transaction.annotation.Transactional;
 import org.springframework.transaction.event.TransactionalEventListener;
 import org.springframework.web.server.ResponseStatusException;
 
-import java.time.Instant;
-
 /**
  * Example of using the entity events ({@link EntityEvent}).
  * With {@link EventListener} and/or {@link TransactionalEventListener} you can handle them
@@ -50,51 +48,52 @@ public class EventHandler {
 	@EventListener(condition = "#event.contain('User')")
 	@Transactional(propagation = Propagation.MANDATORY)
 	public void handleCreateUserEvent(CreateEntityEvent event) {
-		User user = (User) event.getEntity();
-		user.setCreatedAt(Instant.now());
-		log.info("[i] Log creating a User within a transaction: {}", user);
+		log.info("[i] Handling CreateEntityEvent of the {} within a transaction", event.getEntity());
 	}
 
 	@EventListener(condition = "!#event.contain('User')")
 	@Transactional(propagation = Propagation.MANDATORY)
 	public void handleCreateNonUserEvent(CreateEntityEvent event) {
-		log.info("[i] Log creating an entity within a transaction: {}", event.getEntity());
+		log.info("[i] Handling CreateEntityEvent of the entity {} within a transaction", event.getEntity());
 	}
 
 	@Async
 	@TransactionalEventListener
 	public void handleCreateEntityEventAfterCommit(CreateEntityEvent event) {
-		log.info("[i] Log creating an entity after commit: {}", event.getEntity());
+		log.info("[i] Handling CreateEntityEvent of the entity {} after commit", event.getEntity());
 	}
 
 	@EventListener
 	@Transactional(propagation = Propagation.MANDATORY)
 	public void handleUpdateEntityEvent(UpdateEntityEvent event) {
-		log.info("[i] Log updating an entity within a transaction: {}", event.getEntity());
+		log.info("[i] Handling UpdateEntityEvent of the entity {} within a transaction", event.getEntity());
 	}
 
 	@Async
 	@TransactionalEventListener
 	public void handleUpdateEntityEventAfterCommit(UpdateEntityEvent event) {
-		log.info("[i] Log updating an entity after commit: {}", event.getEntity());
+		log.info("[i] Handling UpdateEntityEvent of the entity {} after commit", event.getEntity());
 	}
 
 	@EventListener(condition = "#event.contain('User')")
 	@Transactional(propagation = Propagation.MANDATORY)
 	public void handleDeleteUserEvent(DeleteEntityEvent event) {
-		log.info("[i] Log deleting a User within a transaction: {}", event.getEntity());
-		throw new ResponseStatusException(HttpStatus.FORBIDDEN, "Deleting a User is not allowed!");
+		User user = (User) event.getEntity();
+		log.info("[i] Handling DeleteEntityEvent of the {} within a transaction", user);
+		if (user.getId() == 1) {
+			throw new ResponseStatusException(HttpStatus.FORBIDDEN, "Deleting a User with ID = 1 is not allowed!");
+		}
 	}
 
 	@EventListener(condition = "!#event.contain('User')")
 	@Transactional(propagation = Propagation.MANDATORY)
 	public void handleDeleteNonUserEvent(DeleteEntityEvent event) {
-		log.info("[i] Log deleting an entity within a transaction: {}", event.getEntity());
+		log.info("[i] Handling DeleteEntityEvent of the entity {} within a transaction", event.getEntity());
 	}
 
 	@Async
 	@TransactionalEventListener
 	public void handleDeleteEntityEventAfterCommit(DeleteEntityEvent event) {
-		log.info("[i] Log deleting an entity after commit: {}", event.getEntity());
+		log.info("[i] Handling DeleteEntityEvent of the entity {} after commit", event.getEntity());
 	}
 }

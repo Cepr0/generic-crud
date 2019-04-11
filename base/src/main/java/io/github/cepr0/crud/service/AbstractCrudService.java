@@ -24,7 +24,6 @@ import io.github.cepr0.crud.event.UpdateEntityEvent;
 import io.github.cepr0.crud.mapper.CrudMapper;
 import io.github.cepr0.crud.model.IdentifiableEntity;
 import io.github.cepr0.crud.repo.CrudRepo;
-import io.github.cepr0.crud.support.CrudUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.ApplicationEventPublisher;
 import org.springframework.data.domain.Page;
@@ -38,14 +37,15 @@ import java.util.List;
 import java.util.Optional;
 import java.util.stream.Collectors;
 
+import static io.github.cepr0.crud.support.CrudUtils.copyNonNullProperties;
+
 /**
  * Base implementation of {@link CrudService}.
  *
- * @param <T> type of the entity which extends {@link IdentifiableEntity}
+ * @param <T>  type of the entity which extends {@link IdentifiableEntity}
  * @param <ID> type of the entity identifier
- * @param <Q> type of the input (request) DTO
- * @param <S> type of the output (response) DTO
- *
+ * @param <Q>  type of the input (request) DTO
+ * @param <S>  type of the output (response) DTO
  * @author Sergei Poznanski
  */
 @Transactional
@@ -86,7 +86,10 @@ public abstract class AbstractCrudService<T extends IdentifiableEntity<ID>, ID e
 	@Override
 	public S create(@NonNull final Q source) {
 		T entity = mapper.toCreate(source);
-		return mapper.toResponse(create(entity));
+		onCreate(source, entity);
+		repo.create(entity);
+		publisher.publishEvent(new CreateEntityEvent<>(entity));
+		return mapper.toResponse(entity);
 	}
 
 	/**
@@ -98,7 +101,7 @@ public abstract class AbstractCrudService<T extends IdentifiableEntity<ID>, ID e
 	@NonNull
 	@Override
 	public Optional<T> update(final ID id, final T source) {
-		return repo.update(id, source, (s, t) -> CrudUtils.copyNonNullProperties(s, t, ignoredProps()))
+		return repo.update(id, source, (s, t) -> copyNonNullProperties(s, t, ignoredProps()))
 				.map(entity -> {
 					publisher.publishEvent(new UpdateEntityEvent<>(entity));
 					return entity;
@@ -114,12 +117,12 @@ public abstract class AbstractCrudService<T extends IdentifiableEntity<ID>, ID e
 	@NonNull
 	@Override
 	public Optional<S> update(final ID id, final Q source) {
-		return repo.update(id, source, mapper::toUpdate)
+		CallbackMapperAdapter<Q, T> adapter = new CallbackMapperAdapter<>(mapper::toUpdate, this::onUpdate);
+		return repo.update(id, source, adapter)
 				.map(entity -> {
 					publisher.publishEvent(new UpdateEntityEvent<>(entity));
-					return entity;
-				})
-				.map(mapper::toResponse);
+					return mapper.toResponse(entity);
+				});
 	}
 
 	/**
@@ -200,6 +203,26 @@ public abstract class AbstractCrudService<T extends IdentifiableEntity<ID>, ID e
 	 * @return an array of ignored properties.
 	 */
 	protected String[] ignoredProps() {
-		return new String[] {"id", "version", "createdAt", "updatedAt"};
+		return new String[]{"id", "version", "createdAt", "updatedAt"};
+	}
+
+	/**
+	 * Callback method that is called before creating the entity. Can be overridden to implement custom pre-processing.
+	 *
+	 * @param request input DTO related to the entity
+	 * @param entity that is creating, will never be {@code null}
+	 */
+	@NonNull
+	protected void onCreate(@NonNull final Q request, @NonNull final T entity) {
+	}
+
+	/**
+	 * Callback method that is called before updating the entity. Can be overridden to implement custom pre-processing.
+	 *
+	 * @param request input DTO related to the entity
+	 * @param entity that is updating, will never be {@code null}
+	 */
+	@NonNull
+	protected void onUpdate(@NonNull final Q request, @NonNull final T entity) {
 	}
 }

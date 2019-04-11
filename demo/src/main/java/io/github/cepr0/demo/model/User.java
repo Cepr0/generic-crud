@@ -40,8 +40,12 @@ import java.time.Instant;
 @DynamicUpdate
 public class User extends LongIdEntity {
 
-	@Column(nullable = false, length = 32)
+	@Column(nullable = false)
 	private String name;
 
+	@Column(nullable = false)
 	private Instant createdAt;
+
+	@Column(nullable = false)
+	private Instant updatedAt;
 }

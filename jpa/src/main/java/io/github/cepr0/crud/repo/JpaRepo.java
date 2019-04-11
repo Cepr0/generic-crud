@@ -37,7 +37,6 @@ import java.util.Optional;
  *
  * @param <T> type of the entity which extends {@link IdentifiableEntity}
  * @param <ID> type of the entity identifier
- *
  * @author Sergei Poznanski
  */
 @Transactional
@@ -61,12 +60,7 @@ public interface JpaRepo<T extends IdentifiableEntity<ID>, ID extends Serializab
 	default <S> Optional<T> update(@NonNull final ID id, @NonNull final S source, @NonNull final BeanMapper<S, T> mapper) {
 		Objects.requireNonNull(source, "The given source must not be null!");
 		Objects.requireNonNull(mapper, "The given mapper must not be null!");
-		return getToUpdateById(id)
-				.map(target -> mapper.map(source, target))
-				.map(target -> {
-					flush();
-					return target;
-				});
+		return getToUpdateById(id).map(target -> mapper.map(source, target));
 	}
 
 	@Transactional(readOnly = true)

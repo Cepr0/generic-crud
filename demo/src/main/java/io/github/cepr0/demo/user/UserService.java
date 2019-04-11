@@ -20,15 +20,34 @@ import io.github.cepr0.crud.service.AbstractCrudService;
 import io.github.cepr0.demo.model.User;
 import io.github.cepr0.demo.user.dto.UserRequest;
 import io.github.cepr0.demo.user.dto.UserResponse;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.lang.NonNull;
 import org.springframework.stereotype.Service;
 
+import java.time.Instant;
+
 /**
+ * Service with example of some pre-processing with callback methods {@code onCreate} and {@code onUpdate}.
+ *
  * @author Sergei Poznanski
  */
+@Slf4j
 @Service
 public class UserService extends AbstractCrudService<User, Long, UserRequest, UserResponse> {
 	public UserService(@NonNull final UserRepo repo, @NonNull final UserMapper mapper) {
 		super(repo, mapper);
+	}
+
+	@Override
+	protected void onCreate(final UserRequest request, final User user) {
+		log.info("[i] Callback onCreate method for User. Request is: {}", request);
+		user.setCreatedAt(Instant.now());
+		user.setUpdatedAt(Instant.now());
+	}
+
+	@Override
+	protected void onUpdate(final UserRequest request, final User user) {
+		log.info("[i] Callback onUpdate method for User. Request is: {}", request);
+		user.setUpdatedAt(Instant.now());
 	}
 }

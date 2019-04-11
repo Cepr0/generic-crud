@@ -37,7 +37,7 @@ import java.util.Optional;
  */
 public interface CrudRepo<T extends IdentifiableEntity<ID>, ID extends Serializable> {
 	/**
-	 * Create (save) a given entity.
+	 * Creates (saves) a given entity.
 	 *
 	 * @param entity must not be {@code null}
 	 * @return created (saved) entity, will never be {@code null}
@@ -54,7 +54,7 @@ public interface CrudRepo<T extends IdentifiableEntity<ID>, ID extends Serializa
 	@NonNull Optional<T> getToUpdateById(@NonNull ID id);
 
 	/**
-	 * Update an entity, found by its id, with a given source and a mapper.
+	 * Updates an entity, found by its id, with a given source and a mapper.
 	 * <br/>
 	 * Implementation of this method must used {@link CrudRepo#getToUpdateById} method to find the updated entity.
 	 *
@@ -76,7 +76,7 @@ public interface CrudRepo<T extends IdentifiableEntity<ID>, ID extends Serializa
 	@NonNull Optional<T> getToDeleteById(@NonNull ID id);
 
 	/**
-	 * Delete an entity by its id.
+	 * Deletes an entity by its id.
 	 *
 	 * @param id must not be {@code null}
 	 * @return the deleted entity with the given id or {@code Optional#empty()} if none found
