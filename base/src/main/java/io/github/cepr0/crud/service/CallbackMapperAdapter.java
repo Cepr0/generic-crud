@@ -16,31 +16,30 @@
 
 package io.github.cepr0.crud.service;
 
-import io.github.cepr0.crud.mapper.BeanMapper;
 import org.springframework.lang.NonNull;
 
+import java.util.Objects;
 import java.util.function.BiConsumer;
+import java.util.function.BiFunction;
 
 /**
  * @author Sergei Poznanski
  */
-class CallbackMapperAdapter<S, T> implements BeanMapper<S, T> {
+class CallbackMapperAdapter<S, T> implements BiFunction<S, T, T> {
 
-	private final BeanMapper<S, T> mapper;
-	private final BiConsumer<S, T> callbackBiConsumer;
+	private final BiFunction<S, T, T> mapper;
+	private final BiConsumer<S, T> callback;
 
-	CallbackMapperAdapter(final BeanMapper<S, T> mapper, final BiConsumer<S, T> callbackBiConsumer) {
-		this.mapper = mapper;
-		this.callbackBiConsumer = callbackBiConsumer;
+	CallbackMapperAdapter(@NonNull final BiFunction<S, T, T> mapper, @NonNull final BiConsumer<S, T> callback) {
+		this.mapper = Objects.requireNonNull(mapper, "Parameter 'mapper' must not be null!");
+		this.callback = Objects.requireNonNull(callback, "Parameter 'callback' must not be null!");
 	}
 
 	@NonNull
 	@Override
-	public T map(@NonNull final S source, @NonNull final T target) {
-		T result = mapper.map(source, target);
-		if (callbackBiConsumer != null) {
-			callbackBiConsumer.accept(source, result);
-		}
+	public T apply(@NonNull final S source, @NonNull final T target) {
+		T result = mapper.apply(source, target);
+		callback.accept(source, result);
 		return result;
 	}
 }

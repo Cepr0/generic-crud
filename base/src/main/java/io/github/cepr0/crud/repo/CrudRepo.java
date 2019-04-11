@@ -16,7 +16,6 @@
 
 package io.github.cepr0.crud.repo;
 
-import io.github.cepr0.crud.mapper.BeanMapper;
 import io.github.cepr0.crud.model.IdentifiableEntity;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
@@ -26,6 +25,7 @@ import org.springframework.lang.NonNull;
 import java.io.Serializable;
 import java.util.List;
 import java.util.Optional;
+import java.util.function.BiFunction;
 
 /**
  * Repository interface of generic CRUD operations for a specific entity type and its identifier.
@@ -64,7 +64,7 @@ public interface CrudRepo<T extends IdentifiableEntity<ID>, ID extends Serializa
 	 * @param <S> type of the source which properties are used to update the found entity
 	 * @return updated entity, will never be {@code null}
 	 */
-	@NonNull <S> Optional<T> update(@NonNull ID id, @NonNull S source, @NonNull BeanMapper<S, T> mapper);
+	@NonNull <S> Optional<T> update(@NonNull ID id, @NonNull S source, @NonNull BiFunction<S, T, T> mapper);
 
 	/**
 	 * Retrieves an entity to be deleted, by its id.

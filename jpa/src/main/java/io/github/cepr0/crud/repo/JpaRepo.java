@@ -16,7 +16,6 @@
 
 package io.github.cepr0.crud.repo;
 
-import io.github.cepr0.crud.mapper.BeanMapper;
 import io.github.cepr0.crud.model.IdentifiableEntity;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
@@ -31,6 +30,7 @@ import java.io.Serializable;
 import java.util.List;
 import java.util.Objects;
 import java.util.Optional;
+import java.util.function.BiFunction;
 
 /**
  * Implementation of {@link CrudRepo} which extends {@link JpaRepository} and all it functionality.
@@ -57,10 +57,10 @@ public interface JpaRepo<T extends IdentifiableEntity<ID>, ID extends Serializab
 
 	@NonNull
 	@Override
-	default <S> Optional<T> update(@NonNull final ID id, @NonNull final S source, @NonNull final BeanMapper<S, T> mapper) {
+	default <S> Optional<T> update(@NonNull final ID id, @NonNull final S source, @NonNull final BiFunction<S, T, T> mapper) {
 		Objects.requireNonNull(source, "The given source must not be null!");
 		Objects.requireNonNull(mapper, "The given mapper must not be null!");
-		return getToUpdateById(id).map(target -> mapper.map(source, target));
+		return getToUpdateById(id).map(target -> mapper.apply(source, target));
 	}
 
 	@Transactional(readOnly = true)

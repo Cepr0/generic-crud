@@ -17,7 +17,6 @@
 package io.github.cepr0.crud.repo;
 
 import com.integralblue.log4jdbc.spring.Log4jdbcAutoConfiguration;
-import io.github.cepr0.crud.mapper.BeanMapper;
 import io.github.cepr0.crud.model.Model;
 import io.github.cepr0.crud.support.CrudUtils;
 import org.junit.Before;
@@ -38,6 +37,7 @@ import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 import java.util.Optional;
+import java.util.function.BiFunction;
 
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.assertThatNullPointerException;
@@ -79,7 +79,8 @@ public class JpaRepoTest {
 	@Sql(statements = "insert into models (id, version, text, number) values (1, 0, 'text1', 1)")
 	@Test
 	public void updated() {
-		BeanMapper<Model, Model> mapper = (s, t) -> CrudUtils.copyNonNullProperties(s, t, "id", "version", "createdAt", "updatedAt");
+		BiFunction<Model, Model, Model> mapper = (s, t) ->
+				CrudUtils.copyNonNullProperties(s, t, "id", "version", "createdAt", "updatedAt");
 		Model source = new Model("updated", null);
 
 		Optional<Model> optionalModel = modelRepo.update(1, source, mapper);
