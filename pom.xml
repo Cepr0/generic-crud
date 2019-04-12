@@ -21,7 +21,7 @@
 
     <groupId>io.github.cepr0</groupId>
     <artifactId>generic-crud-parent</artifactId>
-    <version>0.1.1</version>
+    <version>0.2.0</version>
     <packaging>pom</packaging>
 
     <name>Generic-CRUD</name>
@@ -47,9 +47,9 @@
     </developers>
 
     <scm>
-        <connection>scm:git:git://github.com/Cepr0/generic-crud-new.git</connection>
-        <developerConnection>scm:git:ssh://github.com:Cepr0/generic-crud-new.git</developerConnection>
-        <url>https://github.com/Cepr0/generic-crud-new</url>
+        <connection>scm:git:git://github.com/Cepr0/generic-crud.git</connection>
+        <developerConnection>scm:git:ssh://github.com:Cepr0/generic-crud.git</developerConnection>
+        <url>https://github.com/Cepr0/generic-crud</url>
     </scm>
 
     <modules>
