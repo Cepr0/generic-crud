@@ -106,7 +106,7 @@ Then your application is fully setup to perform CRUD operations.
 <properties>
     <!-- ... -->
     <mapstruct.version>1.3.0.Final</mapstruct.version>
-    <generic-crud.version>0.1.1</generic-crud.version>
+    <generic-crud.version>0.2.0</generic-crud.version>
 </properties>   
 
 <dependensies>
