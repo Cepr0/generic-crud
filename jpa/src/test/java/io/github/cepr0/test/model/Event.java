@@ -14,33 +14,56 @@
  * limitations under the License.
  */
 
-package io.github.cepr0.crud.model;
+package io.github.cepr0.test.model;
 
-import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 import lombok.experimental.Accessors;
 import org.hibernate.annotations.DynamicInsert;
 import org.hibernate.annotations.DynamicUpdate;
+import org.springframework.lang.NonNull;
 
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.Table;
+import javax.persistence.*;
+import java.time.Instant;
 
+/**
+ * @author Sergei Poznanski
+ */
 @Accessors(chain = true)
 @Getter
 @Setter
 @NoArgsConstructor
-@AllArgsConstructor
 @Entity
 @DynamicInsert
 @DynamicUpdate
-@Table(name = "models")
-public class Model extends IntIdEntity {
-	@Column(length = 32, nullable = false)
-	private String text;
+@Table(name = "history")
+public class Event extends IntIdEntity {
 
 	@Column(nullable = false)
-	private Integer number;
+	private Instant createdAt = Instant.now();
+
+	@Enumerated(EnumType.STRING)
+	@Column(nullable = false, length = 6)
+	private Type type;
+
+	@Column(nullable = false)
+	private Integer modelId;
+
+	@Column(nullable = false, length = 32)
+	private String modelText;
+
+	@Column(nullable = false, length = 32)
+	private Integer modelNumber;
+
+	public Event(@NonNull final Type type, @NonNull final Model model) {
+		this.type = type;
+		this.modelId = model.getId();
+		this.modelText = model.getText();
+		this.modelNumber = model.getNumber();
+	}
+
+	public enum Type {
+		CREATE, UPDATE, DELETE
+	}
 }

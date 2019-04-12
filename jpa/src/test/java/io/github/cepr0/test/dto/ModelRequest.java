@@ -14,19 +14,18 @@
  * limitations under the License.
  */
 
-package io.github.cepr0.crud.event;
+package io.github.cepr0.test.dto;
 
-import io.github.cepr0.crud.model.IdentifiableEntity;
+import io.github.cepr0.crud.dto.CrudRequest;
+import lombok.Data;
+import lombok.experimental.Accessors;
 
 /**
- * Defines 'create entity' event.
- *
- * @param <T> entity type
- *
  * @author Sergei Poznanski
  */
-public class CreateEntityEvent<T extends IdentifiableEntity> extends EntityEvent<T> {
-	public CreateEntityEvent(final T entity) {
-		super(entity);
-	}
+@Accessors(chain = true)
+@Data
+public class ModelRequest implements CrudRequest {
+	private String text;
+	private Integer number;
 }

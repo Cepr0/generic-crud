@@ -17,8 +17,9 @@
 package io.github.cepr0.crud.repo;
 
 import com.integralblue.log4jdbc.spring.Log4jdbcAutoConfiguration;
-import io.github.cepr0.crud.model.Model;
 import io.github.cepr0.crud.support.CrudUtils;
+import io.github.cepr0.test.model.Model;
+import io.github.cepr0.test.repo.ModelRepo;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -43,6 +44,9 @@ import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.assertThatNullPointerException;
 import static org.springframework.transaction.annotation.Propagation.NOT_SUPPORTED;
 
+/**
+ * @author Sergei Poznanski
+ */
 @RunWith(SpringRunner.class)
 @DataJpaTest
 @Transactional(propagation = NOT_SUPPORTED)
@@ -167,8 +171,8 @@ public class JpaRepoTest {
 	}
 
 	@Configuration
-	@EnableJpaRepositories
-	@EntityScan("io.github.cepr0.crud.model")
+	@EnableJpaRepositories("io.github.cepr0.test.repo")
+	@EntityScan("io.github.cepr0.test.model")
 	public static class Config {
 	}
 }

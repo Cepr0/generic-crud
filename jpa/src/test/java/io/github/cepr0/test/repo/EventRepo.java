@@ -14,19 +14,13 @@
  * limitations under the License.
  */
 
-package io.github.cepr0.crud.event;
+package io.github.cepr0.test.repo;
 
-import io.github.cepr0.crud.model.IdentifiableEntity;
+import io.github.cepr0.test.model.Event;
+import org.springframework.data.jpa.repository.JpaRepository;
 
 /**
- * Defines 'delete entity' event.
- *
- * @param <T> entity type
- *
  * @author Sergei Poznanski
  */
-public class DeleteEntityEvent<T extends IdentifiableEntity> extends EntityEvent<T> {
-	public DeleteEntityEvent(final T entity) {
-		super(entity);
-	}
+public interface EventRepo extends JpaRepository<Event, Integer> {
 }

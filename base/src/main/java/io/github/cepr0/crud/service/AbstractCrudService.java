@@ -18,9 +18,7 @@ package io.github.cepr0.crud.service;
 
 import io.github.cepr0.crud.dto.CrudRequest;
 import io.github.cepr0.crud.dto.CrudResponse;
-import io.github.cepr0.crud.event.CreateEntityEvent;
-import io.github.cepr0.crud.event.DeleteEntityEvent;
-import io.github.cepr0.crud.event.UpdateEntityEvent;
+import io.github.cepr0.crud.event.EntityEvent;
 import io.github.cepr0.crud.mapper.CrudMapper;
 import io.github.cepr0.crud.model.IdentifiableEntity;
 import io.github.cepr0.crud.repo.CrudRepo;
@@ -64,23 +62,28 @@ public abstract class AbstractCrudService<T extends IdentifiableEntity<ID>, ID e
 
 	/**
 	 * {@inheritDoc}
-	 * <br/>
-	 * Publishes a new {@link CreateEntityEvent} which contains the saved entity
-	 * for post-processing in the custom event listener, transactional or not.
+	 * <p>
+	 * Publishes 'entity is created' {@link EntityEvent} if {@link AbstractCrudService#onCreateEvent} method returns a new one.
+	 * <p>
+	 * The event contains the saved entity, and can be post-processed in the custom event listener.
 	 */
 	@NonNull
 	@Override
 	public T create(@NonNull final T source) {
 		T entity = repo.create(source);
-		publisher.publishEvent(new CreateEntityEvent<>(entity));
+
+		EntityEvent<T> event = onCreateEvent(entity);
+		if (event != null) publisher.publishEvent(event);
+
 		return entity;
 	}
 
 	/**
 	 * {@inheritDoc}
-	 * <br/>
-	 * Publishes a new {@link CreateEntityEvent} which contains the saved entity
-	 * for post-processing in the custom event listener, transactional or not.
+	 * <p>
+	 * Publishes 'entity is created' {@link EntityEvent} if {@link AbstractCrudService#onCreateEvent} method returns a new one.
+	 * <p>
+	 * The event contains the saved entity, and can be post-processed in the custom event listener.
 	 */
 	@NonNull
 	@Override
@@ -88,52 +91,61 @@ public abstract class AbstractCrudService<T extends IdentifiableEntity<ID>, ID e
 		T entity = mapper.toCreate(source);
 		onCreate(source, entity);
 		repo.create(entity);
-		publisher.publishEvent(new CreateEntityEvent<>(entity));
+
+		EntityEvent<T> event = onCreateEvent(entity);
+		if (event != null) publisher.publishEvent(event);
+
 		return mapper.toResponse(entity);
 	}
 
 	/**
 	 * {@inheritDoc}
-	 * <br/>
-	 * Publishes a new {@link UpdateEntityEvent} which contains the updated entity
-	 * for post-processing in the custom event listener, transactional or not.
+	 * <p>
+	 * Publishes 'entity is updated' {@link EntityEvent} if {@link AbstractCrudService#onUpdateEvent} method returns a new one.
+	 * <p>
+	 * The event contains the updated entity, and can be post-processed in the custom event listener.
 	 */
 	@NonNull
 	@Override
 	public Optional<T> update(final ID id, final T source) {
 		return repo.update(id, source, (s, t) -> copyNonNullProperties(s, t, ignoredProps()))
 				.map(entity -> {
-					publisher.publishEvent(new UpdateEntityEvent<>(entity));
+					EntityEvent<T> event = onUpdateEvent(entity);
+					if (event != null) publisher.publishEvent(event);
 					return entity;
 				});
 	}
 
 	/**
 	 * {@inheritDoc}
-	 * <br/>
-	 * Publishes a new {@link UpdateEntityEvent} which contains the updated entity
-	 * for post-processing in the custom event listener, transactional or not.
+	 * <p>
+	 * Publishes 'entity is updated' {@link EntityEvent} if {@link AbstractCrudService#onUpdateEvent} method returns a new one.
+	 * <p>
+	 * The event contains the updated entity, and can be post-processed in the custom event listener.
 	 */
 	@NonNull
 	@Override
 	public Optional<S> update(final ID id, final Q source) {
 		return repo.update(id, source, new CallbackMapperAdapter<>(mapper::toUpdate, this::onUpdate))
 				.map(entity -> {
-					publisher.publishEvent(new UpdateEntityEvent<>(entity));
+					EntityEvent<T> event = onUpdateEvent(entity);
+					if (event != null) publisher.publishEvent(event);
 					return mapper.toResponse(entity);
 				});
 	}
 
 	/**
 	 * {@inheritDoc}
-	 * <br/>
-	 * Publishes a new {@link DeleteEntityEvent} which contains the deleted entity
-	 * for post-processing in the custom event listener, transactional or not.
+	 * <p>
+	 * Publishes 'entity is deleted' {@link EntityEvent} if {@link AbstractCrudService#onDeleteEvent} method returns a new one.
+	 * <p>
+	 * The event contains the deleted entity, and can be post-processed in the custom event listener.
 	 */
 	@Override
 	public boolean delete(@NonNull final ID id) {
 		return repo.delete(id).map(deleted -> {
-			publisher.publishEvent(new DeleteEntityEvent<>(deleted));
+			EntityEvent<T> event = onDeleteEvent(deleted);
+			if (event != null) publisher.publishEvent(event);
 			return true;
 		}).orElse(false);
 	}
@@ -212,16 +224,49 @@ public abstract class AbstractCrudService<T extends IdentifiableEntity<ID>, ID e
 	 * @param entity that is creating, will never be {@code null}
 	 */
 	@NonNull
-	protected void onCreate(@NonNull final Q request, @NonNull final T entity) {
+	protected void onCreate(@NonNull Q request, @NonNull T entity) {
 	}
 
 	/**
 	 * Callback method that is called before updating the entity. Can be overridden to implement custom pre-processing.
 	 *
 	 * @param request input DTO related to the entity
-	 * @param entity that is updating, will never be {@code null}
+	 * @param entity that is updated, will never be {@code null}
 	 */
 	@NonNull
-	protected void onUpdate(@NonNull final Q request, @NonNull final T entity) {
+	protected void onUpdate(@NonNull Q request, @NonNull T entity) {
+	}
+
+	/**
+	 * Factory callback method is called after entity is created,
+	 * to create 'entity is created' {@link EntityEvent} and, if it isn't {@code null}, to publish it.
+	 *
+	 * @param entity created entity
+	 * @return an event or {@code null} if none
+	 */
+	protected EntityEvent<T> onCreateEvent(@NonNull T entity) {
+		return null;
+	}
+
+	/**
+	 * Factory callback method is called after entity is updated,
+	 * to create 'entity is updated' {@link EntityEvent} and, if it isn't {@code null}, to publish it.
+	 *
+	 * @param entity updated entity
+	 * @return an event or {@code null} if none
+	 */
+	protected EntityEvent<T> onUpdateEvent(@NonNull T entity) {
+		return null;
+	}
+
+	/**
+	 * Factory callback method is called after entity is deleted,
+	 * to create 'entity is deleted' {@link EntityEvent} and, if it isn't {@code null}, to publish it.
+	 *
+	 * @param entity deleted entity
+	 * @return an event or {@code null} if none
+	 */
+	protected EntityEvent<T> onDeleteEvent(@NonNull T entity) {
+		return null;
 	}
 }

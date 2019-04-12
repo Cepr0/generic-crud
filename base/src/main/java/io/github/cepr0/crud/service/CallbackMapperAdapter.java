@@ -23,6 +23,13 @@ import java.util.function.BiConsumer;
 import java.util.function.BiFunction;
 
 /**
+ * Mapper adapter that invokes a callback function ({@link BiConsumer}) after the mapper ({@link BiFunction}) has been applied.
+ * <p>
+ * For internal used only in {@link AbstractCrudService}.
+ *
+ * @param <S> source object of mapping operation
+ * @param <T> target object of mapping operation
+ *
  * @author Sergei Poznanski
  */
 class CallbackMapperAdapter<S, T> implements BiFunction<S, T, T> {
@@ -30,6 +37,12 @@ class CallbackMapperAdapter<S, T> implements BiFunction<S, T, T> {
 	private final BiFunction<S, T, T> mapper;
 	private final BiConsumer<S, T> callback;
 
+	/**
+	 * Instantiates {@link CallbackMapperAdapter} with mapper and callback functions.
+	 *
+	 * @param mapper {@link BiFunction} that maps 'source' and 'target' objects and return the target
+	 * @param callback {@link BiConsumer} that consumes 'source' and 'target' objects
+	 */
 	CallbackMapperAdapter(@NonNull final BiFunction<S, T, T> mapper, @NonNull final BiConsumer<S, T> callback) {
 		this.mapper = Objects.requireNonNull(mapper, "Parameter 'mapper' must not be null!");
 		this.callback = Objects.requireNonNull(callback, "Parameter 'callback' must not be null!");

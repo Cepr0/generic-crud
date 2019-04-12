@@ -14,13 +14,16 @@
  * limitations under the License.
  */
 
-package io.github.cepr0.crud.mapper;
+package io.github.cepr0.test.event;
 
-import io.github.cepr0.crud.dto.ModelRequest;
-import io.github.cepr0.crud.dto.ModelResponse;
-import io.github.cepr0.crud.model.Model;
-import org.mapstruct.Mapper;
+import io.github.cepr0.crud.event.EntityEvent;
+import io.github.cepr0.test.model.Model;
 
-@Mapper(config = CrudMapper.class)
-public abstract class ModelMapper implements CrudMapper<Model, ModelRequest, ModelResponse> {
+/**
+ * @author Sergei Poznanski
+ */
+public class DeleteModelEvent extends EntityEvent<Model> {
+	public DeleteModelEvent(final Model entity) {
+		super(entity);
+	}
 }

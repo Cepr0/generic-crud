@@ -14,14 +14,32 @@
  * limitations under the License.
  */
 
-package io.github.cepr0.crud.dto;
+package io.github.cepr0.test.model;
 
-import lombok.Data;
+import io.github.cepr0.crud.model.JpaEntity;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.Setter;
 import lombok.experimental.Accessors;
 
+import javax.persistence.GeneratedValue;
+import javax.persistence.Id;
+import javax.persistence.MappedSuperclass;
+import javax.persistence.Version;
+
+/**
+ * @author Sergei Poznanski
+ */
 @Accessors(chain = true)
-@Data
-public class ModelRequest implements CrudRequest {
-	private String text;
-	private Integer number;
+@Getter
+@Setter
+@NoArgsConstructor
+@MappedSuperclass
+public abstract class IntIdEntity extends JpaEntity<Integer> {
+	@Id
+	@GeneratedValue
+	private Integer id;
+
+	@Version
+	private Integer version;
 }

@@ -14,19 +14,17 @@
  * limitations under the License.
  */
 
-package io.github.cepr0.crud.service;
+package io.github.cepr0.test.mapper;
 
-import io.github.cepr0.crud.dto.ModelRequest;
-import io.github.cepr0.crud.dto.ModelResponse;
-import io.github.cepr0.crud.mapper.ModelMapper;
-import io.github.cepr0.crud.model.Model;
-import io.github.cepr0.crud.repo.ModelRepo;
-import org.springframework.lang.NonNull;
-import org.springframework.stereotype.Service;
+import io.github.cepr0.crud.mapper.CrudMapper;
+import io.github.cepr0.test.dto.ModelRequest;
+import io.github.cepr0.test.dto.ModelResponse;
+import io.github.cepr0.test.model.Model;
+import org.mapstruct.Mapper;
 
-@Service
-public class ModelService extends AbstractCrudService<Model, Integer, ModelRequest, ModelResponse> {
-	protected ModelService(@NonNull final ModelRepo repo, @NonNull final ModelMapper mapper) {
-		super(repo, mapper);
-	}
+/**
+ * @author Sergei Poznanski
+ */
+@Mapper(config = CrudMapper.class)
+public abstract class ModelMapper implements CrudMapper<Model, ModelRequest, ModelResponse> {
 }

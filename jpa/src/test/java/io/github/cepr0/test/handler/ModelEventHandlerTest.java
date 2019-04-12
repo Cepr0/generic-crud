@@ -14,11 +14,12 @@
  * limitations under the License.
  */
 
-package io.github.cepr0.crud.event;
+package io.github.cepr0.test.handler;
 
-import io.github.cepr0.crud.model.Event;
-import io.github.cepr0.crud.model.Model;
-import io.github.cepr0.crud.service.ModelService;
+import io.github.cepr0.test.model.Event;
+import io.github.cepr0.test.model.Model;
+import io.github.cepr0.test.repo.EventRepo;
+import io.github.cepr0.test.service.ModelService;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -38,11 +39,14 @@ import java.util.List;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.springframework.transaction.annotation.Propagation.NOT_SUPPORTED;
 
+/**
+ * @author Sergei Poznanski
+ */
 @RunWith(SpringRunner.class)
 @DataJpaTest
 @Transactional(propagation = NOT_SUPPORTED)
 @ActiveProfiles("test")
-public class EventHandlerTest {
+public class ModelEventHandlerTest {
 
 	@Autowired private ModelService modelService;
 	@Autowired private EventRepo eventRepo;
@@ -92,10 +96,10 @@ public class EventHandlerTest {
 	}
 
 	@Configuration
-	@EnableJpaRepositories({"io.github.cepr0.crud.repo", "io.github.cepr0.crud.event"})
-	@EntityScan("io.github.cepr0.crud.model")
-	@Import({EventHandler.class, ModelService.class})
-	@ComponentScan("io.github.cepr0.crud.mapper")
+	@EnableJpaRepositories("io.github.cepr0.test.repo")
+	@EntityScan("io.github.cepr0.test.model")
+	@Import({ModelEventHandler.class, ModelService.class})
+	@ComponentScan("io.github.cepr0.test.mapper")
 	public static class Config {
 	}
 }

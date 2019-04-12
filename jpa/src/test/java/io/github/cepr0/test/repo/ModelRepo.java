@@ -14,9 +14,10 @@
  * limitations under the License.
  */
 
-package io.github.cepr0.crud.repo;
+package io.github.cepr0.test.repo;
 
-import io.github.cepr0.crud.model.Model;
+import io.github.cepr0.crud.repo.JpaRepo;
+import io.github.cepr0.test.model.Model;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
@@ -26,6 +27,9 @@ import org.springframework.lang.NonNull;
 import java.util.List;
 import java.util.Optional;
 
+/**
+ * @author Sergei Poznanski
+ */
 public interface ModelRepo extends JpaRepo<Model, Integer> {
 	@NonNull
 	@Override

@@ -14,10 +14,16 @@
  * limitations under the License.
  */
 
-package io.github.cepr0.crud.event;
+package io.github.cepr0.test.event;
 
-import io.github.cepr0.crud.model.Event;
-import org.springframework.data.jpa.repository.JpaRepository;
+import io.github.cepr0.crud.event.EntityEvent;
+import io.github.cepr0.test.model.Model;
 
-public interface EventRepo extends JpaRepository<Event, Integer> {
+/**
+ * @author Sergei Poznanski
+ */
+public class CreateModelEvent extends EntityEvent<Model> {
+	public CreateModelEvent(final Model entity) {
+		super(entity);
+	}
 }

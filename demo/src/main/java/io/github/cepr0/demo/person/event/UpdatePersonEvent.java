@@ -14,19 +14,16 @@
  * limitations under the License.
  */
 
-package io.github.cepr0.crud.event;
+package io.github.cepr0.demo.person.event;
 
-import io.github.cepr0.crud.model.IdentifiableEntity;
+import io.github.cepr0.crud.event.EntityEvent;
+import io.github.cepr0.demo.model.Person;
 
 /**
- * Defines 'update entity' event.
- *
- * @param <T> entity type
- *
  * @author Sergei Poznanski
  */
-public class UpdateEntityEvent<T extends IdentifiableEntity> extends EntityEvent<T> {
-	public UpdateEntityEvent(final T entity) {
+public class UpdatePersonEvent extends EntityEvent<Person> {
+	public UpdatePersonEvent(final Person entity) {
 		super(entity);
 	}
 }

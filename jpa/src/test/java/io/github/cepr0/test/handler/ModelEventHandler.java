@@ -14,46 +14,52 @@
  * limitations under the License.
  */
 
-package io.github.cepr0.crud.event;
+package io.github.cepr0.test.handler;
 
-import io.github.cepr0.crud.model.Event;
-import io.github.cepr0.crud.model.IdentifiableEntity;
-import io.github.cepr0.crud.model.Model;
+import io.github.cepr0.test.event.CreateModelEvent;
+import io.github.cepr0.test.event.DeleteModelEvent;
+import io.github.cepr0.test.event.UpdateModelEvent;
+import io.github.cepr0.test.model.Event;
+import io.github.cepr0.test.model.Model;
+import io.github.cepr0.test.repo.EventRepo;
 import org.springframework.context.event.EventListener;
 import org.springframework.lang.NonNull;
 import org.springframework.stereotype.Component;
 import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
 
+/**
+ * @author Serhei Poznanski
+ */
 @Component
-public class EventHandler {
+public class ModelEventHandler {
 
 	private final EventRepo eventRepo;
 
-	public EventHandler(@NonNull final EventRepo eventRepo) {
+	public ModelEventHandler(@NonNull final EventRepo eventRepo) {
 		this.eventRepo = eventRepo;
 	}
 
 	@EventListener
 	@Transactional(propagation = Propagation.MANDATORY)
-	public void handleCreateEntityEvent(@NonNull final CreateEntityEvent e) {
+	public void handleCreateModelEvent(@NonNull final CreateModelEvent e) {
 		processEvent(Event.Type.CREATE, e.getEntity());
 	}
 
 	@EventListener
 	@Transactional(propagation = Propagation.MANDATORY)
-	public void handleUpdateEntityEvent(@NonNull final UpdateEntityEvent e) {
+	public void handleUpdateModelEvent(@NonNull final UpdateModelEvent e) {
 		processEvent(Event.Type.UPDATE, e.getEntity());
 	}
 
 	@EventListener
 	@Transactional(propagation = Propagation.MANDATORY)
-	public void handleDeleteEntityEvent(@NonNull final DeleteEntityEvent e) {
+	public void handleDeleteModelEvent(@NonNull final DeleteModelEvent e) {
 	processEvent(Event.Type.DELETE, e.getEntity());
 	}
 
-	private void processEvent(@NonNull final Event.Type type, @NonNull final IdentifiableEntity entity) {
-		Event event = new Event(type, (Model) entity);
+	private void processEvent(@NonNull final Event.Type type, @NonNull final Model model) {
+		Event event = new Event(type, model);
 		eventRepo.save(event);
 	}
 }

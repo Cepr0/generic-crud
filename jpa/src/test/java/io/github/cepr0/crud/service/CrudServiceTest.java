@@ -16,11 +16,12 @@
 
 package io.github.cepr0.crud.service;
 
-import io.github.cepr0.crud.dto.ModelRequest;
-import io.github.cepr0.crud.dto.ModelResponse;
-import io.github.cepr0.crud.model.IntIdEntity;
-import io.github.cepr0.crud.model.Model;
-import io.github.cepr0.crud.repo.ModelRepo;
+import io.github.cepr0.test.dto.ModelRequest;
+import io.github.cepr0.test.dto.ModelResponse;
+import io.github.cepr0.test.model.IntIdEntity;
+import io.github.cepr0.test.model.Model;
+import io.github.cepr0.test.repo.ModelRepo;
+import io.github.cepr0.test.service.ModelService;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -45,6 +46,9 @@ import java.util.stream.Collectors;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.springframework.transaction.annotation.Propagation.NOT_SUPPORTED;
 
+/**
+ * @author Sergei Poznanski
+ */
 @RunWith(SpringRunner.class)
 @DataJpaTest
 @Transactional(propagation = NOT_SUPPORTED)
@@ -204,10 +208,10 @@ public class CrudServiceTest {
 	}
 
 	@Configuration
-	@EnableJpaRepositories("io.github.cepr0.crud.repo")
-	@EntityScan("io.github.cepr0.crud.model")
+	@EnableJpaRepositories("io.github.cepr0.test.repo")
+	@EntityScan("io.github.cepr0.test.model")
 	@Import(ModelService.class)
-	@ComponentScan("io.github.cepr0.crud.mapper")
+	@ComponentScan("io.github.cepr0.test.mapper")
 	public static class Config {
 	}
 }

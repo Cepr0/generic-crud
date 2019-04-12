@@ -14,15 +14,16 @@
  * limitations under the License.
  */
 
-package io.github.cepr0.crud.dto;
+package io.github.cepr0.test.event;
 
-import lombok.Builder;
-import lombok.Value;
+import io.github.cepr0.crud.event.EntityEvent;
+import io.github.cepr0.test.model.Model;
 
-@Value
-@Builder
-public class ModelResponse implements CrudResponse<Integer> {
-	private Integer id;
-	private String text;
-	private Integer number;
+/**
+ * @author Sergei Poznanski
+ */
+public class UpdateModelEvent extends EntityEvent<Model> {
+	public UpdateModelEvent(final Model entity) {
+		super(entity);
+	}
 }

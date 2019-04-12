@@ -14,28 +14,19 @@
  * limitations under the License.
  */
 
-package io.github.cepr0.crud.model;
+package io.github.cepr0.test.dto;
 
-import lombok.Getter;
-import lombok.NoArgsConstructor;
-import lombok.Setter;
-import lombok.experimental.Accessors;
+import io.github.cepr0.crud.dto.CrudResponse;
+import lombok.Builder;
+import lombok.Value;
 
-import javax.persistence.GeneratedValue;
-import javax.persistence.Id;
-import javax.persistence.MappedSuperclass;
-import javax.persistence.Version;
-
-@Accessors(chain = true)
-@Getter
-@Setter
-@NoArgsConstructor
-@MappedSuperclass
-public abstract class IntIdEntity extends JpaEntity<Integer> {
-	@Id
-	@GeneratedValue
+/**
+ * @author Sergei Poznanski
+ */
+@Value
+@Builder
+public class ModelResponse implements CrudResponse<Integer> {
 	private Integer id;
-
-	@Version
-	private Integer version;
+	private String text;
+	private Integer number;
 }

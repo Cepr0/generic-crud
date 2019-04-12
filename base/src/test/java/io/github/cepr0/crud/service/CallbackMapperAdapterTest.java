@@ -14,43 +14,39 @@
  * limitations under the License.
  */
 
-package io.github.cepr0.crud.model;
+package io.github.cepr0.crud.service;
 
-import io.github.cepr0.test.model.Model;
-import org.assertj.core.api.Assertions;
 import org.junit.Before;
 import org.junit.Test;
 
-import java.util.HashSet;
-
-import static java.util.Arrays.asList;
 import static org.assertj.core.api.Assertions.assertThat;
 
 /**
  * @author Sergei Poznanski
  */
-public class JpaEntityTest {
+public class CallbackMapperAdapterTest {
 
-	private Model model1;
-	private Model model2;
+	private CallbackMapperAdapter<String, String> mapper;
+	private String source, target;
 
 	@Before
-	public void setUp() throws Exception {
-		model1 = new Model("model1", 1);
-		model2 = new Model("model2", 2);
+	public void setUp() {
+		source = "source";
+		target = "target";
+		mapper = new CallbackMapperAdapter<>(this::map, this::callback);
 	}
 
 	@Test
-	public void set() {
-		HashSet<Model> models = new HashSet<>(asList(model1, model2));
-		Assertions.assertThat(models).hasSize(2);
+	public void apply() {
+		assertThat(mapper.apply(source, target)).isEqualTo(this.source + "/" + this.target);
 	}
 
-	@Test
-	public void equals() {
-		assertThat(model1).isNotEqualTo(model2);
-		model1.setId(1);
-		model2.setId(1);
-		assertThat(model1).isEqualTo(model2);
+	private String map(String source, String target) {
+		return source + "/" + target;
+	}
+
+	private void callback(String source, String target) {
+		assertThat(source).isEqualTo(this.source);
+		assertThat(target).isEqualTo(this.source + "/" + this.target);
 	}
 }
