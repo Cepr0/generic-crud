@@ -1,5 +1,9 @@
 ## Generic-CRUD
 
+![Maven Central](https://img.shields.io/maven-central/v/io.github.cepr0/generic-crud-parent.svg)
+![GitHub repo size](https://img.shields.io/github/repo-size/cepr0/generic-crud.svg)
+![GitHub](https://img.shields.io/github/license/cepr0/generic-crud.svg)
+
 **Generic-CRUD** is a small convenient modular library that allows you to simplify the development 
 of [Spring](https://spring.io/) web applications by reducing the writing of the boilerplate code for CRUD operations. 
 It implements a full set of base operations with a database to **C**reate, **R**ead, **U**pdate 
