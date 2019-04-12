@@ -45,38 +45,18 @@ public interface CrudRepo<T extends IdentifiableEntity<ID>, ID extends Serializa
 	@NonNull T create(@NonNull T entity);
 
 	/**
-	 * Retrieves an entity to be updated, by its id.
-	 * Used in the implementation of {@link CrudRepo#update} method.
-	 *
-	 * @param id must not be {@code null}
-	 * @return the entity with the given id or {@code Optional#empty()} if none found
-	 */
-	@NonNull Optional<T> getToUpdateById(@NonNull ID id);
-
-	/**
 	 * Updates an entity, found by its id, with a given source and a mapper.
-	 * <br/>
-	 * Implementation of this method must used {@link CrudRepo#getToUpdateById} method to find the updated entity.
 	 *
 	 * @param id must not be {@code null}
 	 * @param source must not be {@code null}
-	 * @param mapper must not be {@code null}
+	 * @param mapper that maps the 'source' to updated entity, must not be {@code null}
 	 * @param <S> type of the source which properties are used to update the found entity
 	 * @return updated entity, will never be {@code null}
 	 */
 	@NonNull <S> Optional<T> update(@NonNull ID id, @NonNull S source, @NonNull BiFunction<S, T, T> mapper);
 
 	/**
-	 * Retrieves an entity to be deleted, by its id.
-	 * Used in the implementation of {@link CrudRepo#delete} method.
-	 *
-	 * @param id must not be {@code null}
-	 * @return the entity with the given id or {@code Optional#empty()} if none found
-	 */
-	@NonNull Optional<T> getToDeleteById(@NonNull ID id);
-
-	/**
-	 * Deletes an entity by its id.
+	 * Deletes an entity by its id, then returns deleted entity.
 	 *
 	 * @param id must not be {@code null}
 	 * @return the deleted entity with the given id or {@code Optional#empty()} if none found

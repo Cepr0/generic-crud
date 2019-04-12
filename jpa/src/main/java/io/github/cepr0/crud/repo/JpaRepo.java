@@ -50,9 +50,15 @@ public interface JpaRepo<T extends IdentifiableEntity<ID>, ID extends Serializab
 		return save(entity);
 	}
 
+	/**
+	 * Retrieves an entity to be updated, by its id.
+	 * Used in the {@link JpaRepo#update} method.
+	 *
+	 * @param id must not be {@code null}
+	 * @return the entity with the given id or {@code Optional#empty()} if none found
+	 */
 	@Transactional(readOnly = true)
 	@NonNull
-	@Override
 	Optional<T> getToUpdateById(@NonNull ID id);
 
 	@NonNull
@@ -63,9 +69,15 @@ public interface JpaRepo<T extends IdentifiableEntity<ID>, ID extends Serializab
 		return getToUpdateById(id).map(target -> mapper.apply(source, target));
 	}
 
+	/**
+	 * Retrieves an entity to be deleted, by its id.
+	 * Used in {@link JpaRepo#delete} method.
+	 *
+	 * @param id must not be {@code null}
+	 * @return the entity with the given id or {@code Optional#empty()} if none found
+	 */
 	@Transactional(readOnly = true)
 	@NonNull
-	@Override
 	Optional<T> getToDeleteById(@NonNull ID id);
 
 	@Override
