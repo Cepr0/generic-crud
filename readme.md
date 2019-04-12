@@ -1,17 +1,17 @@
-## Generic-CRUD
-
 ![Maven Central](https://img.shields.io/maven-central/v/io.github.cepr0/generic-crud-parent.svg)
 ![GitHub repo size](https://img.shields.io/github/repo-size/cepr0/generic-crud.svg)
 ![GitHub](https://img.shields.io/github/license/cepr0/generic-crud.svg)
 
-**Generic-CRUD** is a small convenient modular library that allows you to simplify the development 
+### Generic-CRUD
+
+**Generic-CRUD** is a small modular library that allows you to simplify the development 
 of [Spring](https://spring.io/) web applications by reducing the writing of the boilerplate code for CRUD operations. 
-It implements a full set of base operations with a database to **C**reate, **R**ead, **U**pdate 
+It implements a full set of base operations with SQL (JPA) database to **C**reate, **R**ead, **U**pdate 
 and **D**elete your entities.
 
-### Quick start
+#### Get started
 
-1. Inherit your entity from abstract [JpaEntity](/jpa/src/main/java/io/github/cepr0/crud/model/JpaEntity.java) class:     
+1. Inherit your **entity** from abstract [JpaEntity](/jpa/src/main/java/io/github/cepr0/crud/model/JpaEntity.java) class:     
 ```java
 @Getter
 @Setter
@@ -24,11 +24,11 @@ public class Model extends JpaEntity<Long> {
     private String name;
 }
 ```
-2. Extend your entity repository from the [JpaRepo](/jpa/src/main/java/io/github/cepr0/crud/repo/JpaRepo.java):
+2. Extend your entity **repository** from the [JpaRepo](/jpa/src/main/java/io/github/cepr0/crud/repo/JpaRepo.java):
 ```java
 public interface ModelRepo extends JpaRepo<Model, Long> {}
 ```
-3. Prepare request and response DTOs of your entity - inherit them from [CrudRequest](/base/src/main/java/io/github/cepr0/crud/dto/CrudRequest.java)
+3. Prepare request and response **DTOs** of your entity - inherit them from [CrudRequest](/base/src/main/java/io/github/cepr0/crud/dto/CrudRequest.java)
 and [CrudResponse](/base/src/main/java/io/github/cepr0/crud/dto/CrudResponse.java) interfaces:
 ```java
 @Data
@@ -42,14 +42,15 @@ public class ModelResponse implements CrudResponse<Long> {
     private String name;
 }
 ```
-4. Prepare a mapper between the entity and its DTOs based on [CrudMapper](/base/src/main/java/io/github/cepr0/crud/mapper/CrudMapper.java):
+4. Prepare a **mapper** between the entity and its DTOs based on [CrudMapper](/base/src/main/java/io/github/cepr0/crud/mapper/CrudMapper.java):
 ```java
 @Mapper(config = CrudMapper.class)
 public abstract class ModelMapper implements CrudMapper<Model, ModelRequest, ModelResponse> {
 }
 ```
-The library uses [MapStruct](http://mapstruct.org/) framework, so you should add it dependency to your project.
-Note that you should use 'CrudMapper.class' to config your mapper.   
+The library uses [MapStruct](http://mapstruct.org/) framework to generate code of the mappers, 
+so you should add it dependency to your project.
+Note that you should use `CrudMapper.class` to config your mapper.   
 
 5. Prepare a service which will serve your DTOs and entities, extend it from 
 [AbstractCrudService](/base/src/main/java/io/github/cepr0/crud/service/AbstractCrudService.java):
@@ -104,7 +105,7 @@ public class ModelController extends AbstractCrudController<Model, Long, ModelRe
 ``` 
 Then your application is fully setup to perform CRUD operations.
       
-## Install 
+### Install 
 
 ```xml
 <properties>
@@ -168,6 +169,6 @@ The library is used [MapStruct](http://mapstruct.org) framework, so you should a
 Note that the second `path` in the `annotationProcessorPaths` section is necessary 
 if you are using [Lombok](https://projectlombok.org/) in your project. 
 
-## Demo Application
+### Demo Application
 
 You can find a comprehensive example of the library usage in the **[demo](/demo)** module.

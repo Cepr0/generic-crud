@@ -1,4 +1,4 @@
-[![Postman-collection](https://img.shields.io/badge/Postman-collection-orange.svg)](https://documenter.getpostman.com/view/788154/S1ENye6m)
+[![Postman-collection](https://img.shields.io/badge/Postman-collection-orange.svg?style=popout&logo=postman)](https://documenter.getpostman.com/view/788154/S1ENye6m)
 
 **[Generic-CRUD](https://github.com/Cepr0/generic-crud) demo application**
 
