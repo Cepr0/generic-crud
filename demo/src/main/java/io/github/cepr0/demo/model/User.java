@@ -48,4 +48,6 @@ public class User extends LongIdEntity {
 
 	@Column(nullable = false)
 	private Instant updatedAt;
+
+	private boolean deleted;
 }

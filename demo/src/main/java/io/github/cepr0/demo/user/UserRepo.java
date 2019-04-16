@@ -18,9 +18,31 @@ package io.github.cepr0.demo.user;
 
 import io.github.cepr0.crud.repo.JpaRepo;
 import io.github.cepr0.demo.model.User;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.jpa.repository.Query;
+
+import java.util.Optional;
 
 /**
  * @author Sergei Poznanski
  */
 public interface UserRepo extends JpaRepo<User, Long> {
+
+	@Override
+	default void delete(User user) {
+		user.setDeleted(true);
+	}
+
+	@Query("select u from User u where u.id = ?1 and u.deleted = false")
+	@Override
+	Optional<User> getToDeleteById(Long aLong);
+
+	@Query("select u from User u where u.id = ?1 and u.deleted = false")
+	@Override
+	Optional<User> getById(Long aLong);
+
+	@Query("select u from User u where u.deleted = false")
+	@Override
+	Page<User> getAll(Pageable pageable);
 }
