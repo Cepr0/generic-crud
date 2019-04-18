@@ -23,6 +23,7 @@ import io.github.cepr0.crud.service.CrudService;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.lang.NonNull;
 
@@ -57,7 +58,7 @@ public abstract class AbstractCrudController<T extends IdentifiableEntity<ID>, I
 	 */
 	@NonNull
 	public ResponseEntity<S> create(@NonNull final Q request) {
-		return ResponseEntity.created(null).body(service.create(request));
+		return ResponseEntity.status(HttpStatus.CREATED).body(service.create(request));
 	}
 
 	/**
@@ -70,7 +71,9 @@ public abstract class AbstractCrudController<T extends IdentifiableEntity<ID>, I
 	 */
 	@NonNull
 	public ResponseEntity<S> update(@NonNull final ID id, @NonNull final Q request) {
-		return ResponseEntity.of(service.update(id, request));
+		return service.update(id, request)
+				.map(ResponseEntity::ok)
+				.orElse(ResponseEntity.notFound().build());
 	}
 
 	/**
@@ -98,7 +101,9 @@ public abstract class AbstractCrudController<T extends IdentifiableEntity<ID>, I
 	 */
 	@NonNull
 	public ResponseEntity<S> getOne(@NonNull final ID id) {
-		return ResponseEntity.of(service.getOne(id));
+		return service.getOne(id)
+				.map(ResponseEntity::ok)
+				.orElse(ResponseEntity.notFound().build());
 	}
 
 	/**

@@ -61,7 +61,7 @@ public interface CrudRepo<T extends IdentifiableEntity<ID>, ID extends Serializa
 	 * @param id must not be {@code null}
 	 * @return the deleted entity with the given id or {@code Optional#empty()} if none found
 	 */
-	@NonNull Optional<T> delete(@NonNull ID id);
+	@NonNull Optional<T> del(@NonNull ID id);
 
 	/**
 	 * Retrieves an entity by its id.
