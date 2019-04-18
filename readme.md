@@ -1,6 +1,6 @@
-![Maven Central](https://img.shields.io/maven-central/v/io.github.cepr0/generic-crud-parent.svg)
+[![Maven Central](https://img.shields.io/maven-central/v/io.github.cepr0/generic-crud-parent.svg)](https://search.maven.org/search?q=g:io.github.cepr0)
 ![GitHub repo size](https://img.shields.io/github/repo-size/cepr0/generic-crud.svg)
-![GitHub](https://img.shields.io/github/license/cepr0/generic-crud.svg)
+[![GitHub](https://img.shields.io/github/license/cepr0/generic-crud.svg)](LICENSE.md)
 
 ### Generic-CRUD
 
@@ -111,7 +111,7 @@ Then your application is fully setup to perform CRUD operations.
 <properties>
     <!-- ... -->
     <mapstruct.version>1.3.0.Final</mapstruct.version>
-    <generic-crud.version>0.2.0</generic-crud.version>
+    <generic-crud.version>0.2.1</generic-crud.version>
 </properties>   
 
 <dependensies>

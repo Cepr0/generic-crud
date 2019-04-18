@@ -24,7 +24,12 @@
     <version>0.0.1-SNAPSHOT</version>
 
     <name>demo</name>
-    <description>Demo example of using the &#39;generic-crud&#39; library</description>
+    <description>
+        Demo example of using the &#39;generic-crud&#39; library that reduces the writing of the boilerplate code
+        for CRUD operations in Spring web applications
+    </description>
+
+    <url>https://github.com/Cepr0/generic-crud</url>
 
     <parent>
         <groupId>org.springframework.boot</groupId>
@@ -36,7 +41,7 @@
     <properties>
         <java.version>1.8</java.version>
         <mapstruct.version>1.3.0.Final</mapstruct.version>
-        <generic-crud.version>0.2.1-SNAPSHOT</generic-crud.version>
+        <generic-crud.version>0.2.1</generic-crud.version>
     </properties>
 
     <repositories>

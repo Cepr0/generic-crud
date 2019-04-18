@@ -22,12 +22,18 @@
     <artifactId>generic-crud-model</artifactId>
 
     <name>model</name>
-    <description>Model module of 'generic-crud' project</description>
+
+    <description>
+        Model module of 'generic-crud' - the library that reduces the writing of the boilerplate code
+        for CRUD operations in Spring web applications
+    </description>
+
+    <url>https://github.com/Cepr0/generic-crud</url>
 
     <parent>
         <groupId>io.github.cepr0</groupId>
         <artifactId>generic-crud-parent</artifactId>
-        <version>0.2.1-SNAPSHOT</version>
+        <version>0.2.1</version>
         <relativePath>../pom.xml</relativePath>
     </parent>
 
