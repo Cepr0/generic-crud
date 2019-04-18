@@ -113,7 +113,7 @@ public class JpaRepoTest {
 	@Sql(statements = "insert into models (id, version, text, number) values (1, 0, 'text1', 1)")
 	@Test
 	public void delete() {
-		Optional<Model> optionalModel = modelRepo.delete(1);
+		Optional<Model> optionalModel = modelRepo.del(1);
 
 		assertThat(optionalModel)
 				.isNotEmpty()

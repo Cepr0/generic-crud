@@ -71,7 +71,7 @@ public interface JpaRepo<T extends IdentifiableEntity<ID>, ID extends Serializab
 
 	/**
 	 * Retrieves an entity to be deleted, by its id.
-	 * Used in {@link JpaRepo#delete} method.
+	 * Used in {@link JpaRepo#del} method.
 	 *
 	 * @param id must not be {@code null}
 	 * @return the entity with the given id or {@code Optional#empty()} if none found
@@ -81,7 +81,7 @@ public interface JpaRepo<T extends IdentifiableEntity<ID>, ID extends Serializab
 	Optional<T> getToDeleteById(@NonNull ID id);
 
 	@Override
-	default Optional<T> delete(@NonNull final ID id) {
+	default Optional<T> del(@NonNull final ID id) {
 		return getToDeleteById(id).map(found -> {
 			delete(found);
 			return found;

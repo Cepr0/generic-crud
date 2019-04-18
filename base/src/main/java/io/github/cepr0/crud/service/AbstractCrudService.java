@@ -25,6 +25,7 @@ import io.github.cepr0.crud.repo.CrudRepo;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.ApplicationEventPublisher;
 import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageImpl;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
 import org.springframework.lang.NonNull;
@@ -143,7 +144,7 @@ public abstract class AbstractCrudService<T extends IdentifiableEntity<ID>, ID e
 	 */
 	@Override
 	public boolean delete(@NonNull final ID id) {
-		return repo.delete(id).map(deleted -> {
+		return repo.del(id).map(deleted -> {
 			EntityEvent<T> event = onDeleteEvent(deleted);
 			if (event != null) publisher.publishEvent(event);
 			return true;
@@ -189,7 +190,10 @@ public abstract class AbstractCrudService<T extends IdentifiableEntity<ID>, ID e
 	@NonNull
 	@Override
 	public Page<S> getAll(final Pageable pageable) {
-		return repo.getAll(pageable).map(mapper::toResponse);
+//		return repo.getAll(pageable).map(mapper::toResponse); // works in SB 2.0+
+		Page<T> page = repo.getAll(pageable);
+		List<S> content = page.getContent().stream().map(mapper::toResponse).collect(Collectors.toList());
+		return new PageImpl<>(content, pageable, page.getTotalElements());
 	}
 
 	@Transactional(readOnly = true)

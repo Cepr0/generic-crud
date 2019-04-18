@@ -29,6 +29,7 @@ import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.Import;
 import org.springframework.data.domain.*;
+import org.springframework.data.web.config.EnableSpringDataWebSupport;
 import org.springframework.http.ResponseEntity;
 import org.springframework.http.converter.HttpMessageConverter;
 import org.springframework.http.converter.json.Jackson2ObjectMapperBuilder;
@@ -38,7 +39,7 @@ import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.ResultActions;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.config.annotation.EnableWebMvc;
-import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
+import org.springframework.web.servlet.config.annotation.WebMvcConfigurerAdapter;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -261,8 +262,9 @@ public class AbstractCrudControllerTest {
 
 	@Configuration
 	@EnableWebMvc
+	@EnableSpringDataWebSupport
 	@Import(AbstractCrudControllerTest.TestCrudController.class)
-	public static class TestConfig implements WebMvcConfigurer {
+	public static class TestConfig extends WebMvcConfigurerAdapter { // for compatibility with SB 2.0.x
 		@Override
 		public void configureMessageConverters(final List<HttpMessageConverter<?>> converters) {
 			SimpleModule m = new SimpleModule();
