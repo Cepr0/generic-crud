@@ -29,18 +29,24 @@ import java.util.Optional;
  */
 public interface UserRepo extends JpaRepo<User, Long> {
 
+	String SELECT_NON_DELETED = "select u from User u where u.id = ?1 and u.deleted = false";
+
 	@Override
 	default void delete(User user) {
 		user.setDeleted(true);
 	}
 
-	@Query("select u from User u where u.id = ?1 and u.deleted = false")
+	@Query(SELECT_NON_DELETED)
 	@Override
-	Optional<User> getToDeleteById(Long aLong);
+	Optional<User> getToDeleteById(Long id);
 
-	@Query("select u from User u where u.id = ?1 and u.deleted = false")
+	@Query(SELECT_NON_DELETED)
 	@Override
-	Optional<User> getById(Long aLong);
+	Optional<User> getToUpdateById(Long id);
+
+	@Query(SELECT_NON_DELETED)
+	@Override
+	Optional<User> getById(Long id);
 
 	@Query("select u from User u where u.deleted = false")
 	@Override
