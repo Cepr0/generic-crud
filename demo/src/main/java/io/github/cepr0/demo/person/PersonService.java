@@ -16,7 +16,6 @@
 
 package io.github.cepr0.demo.person;
 
-import io.github.cepr0.crud.event.EntityEvent;
 import io.github.cepr0.crud.service.AbstractCrudService;
 import io.github.cepr0.demo.model.Car;
 import io.github.cepr0.demo.model.Person;
@@ -46,7 +45,7 @@ public class PersonService extends AbstractCrudService<Person, UUID, PersonReque
 	}
 
 	@Override
-	protected EntityEvent<Person> onUpdateEvent(final Person entity) {
+	protected UpdatePersonEvent onUpdateEvent(final Person entity) {
 		return new UpdatePersonEvent(entity);
 	}
 
