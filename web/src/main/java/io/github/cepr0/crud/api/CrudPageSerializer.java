@@ -138,7 +138,7 @@ public class CrudPageSerializer extends JsonSerializer<Page> {
 			gen.writeEndObject();
 
 			Sort sort = page.getSort();
-			if (sort.iterator().hasNext()) { // sort.isSorted() - works in SB 2.0+
+			if (sort != null && sort.iterator().hasNext()) { // sort.isSorted() - works in SB 2.0+
 				gen.writeArrayFieldStart(sortBlock);
 				{
 					for (Sort.Order order : sort) {
