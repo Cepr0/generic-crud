@@ -4,7 +4,7 @@
 ![GitHub repo size](https://img.shields.io/github/repo-size/cepr0/generic-crud.svg)
 ![GitHub](https://img.shields.io/github/license/cepr0/generic-crud.svg)
 
-**Generic CRUD** is a small modular and expandable library that allows you to eliminate the writing of boilerplate code for [CRUD](https://en.wikipedia.org/wiki/Create,_read,_update_and_delete) operations in the development of [Spring](https://spring.io/) applications that work with databases. It implements a full set of base operations to **C**reate, **R**ead, **U**pdate and **D**elete your entities. Currently, it works with JPA databases only but it can be expanded to support other databases.  
+**Generic CRUD** is a small modular and expandable library that allows you to eliminate the writing of boilerplate code for [CRUD](https://en.wikipedia.org/wiki/Create,_read,_update_and_delete) operations in the development of [Spring](https://spring.io/) applications that work with databases. It implements a full set of base operations to **C**reate, **R**ead, **U**pdate and **D**elete your entities. Currently, it works with **JPA databases** and **MongoDB** but you can expand it to work with other databases.  
 
 - [Quick start](#quick-start)
 - [Demo](#demo)
@@ -26,7 +26,9 @@
 
 ## Quick start
 
-1. Inherit your **entity** from [IdentifiableEntity](/model/src/main/java/io/github/cepr0/crud/model/IdentifiableEntity.java) or from handy abstract [JpaEntity](/jpa/src/main/java/io/github/cepr0/crud/model/JpaEntity.java) class:     
+Assume that you work with JPA database.
+
+1. Inherit your **entity** abstract [JpaEntity](/jpa/src/main/java/io/github/cepr0/crud/model/JpaEntity.java) class:     
 ```java
 @Getter
 @Setter
@@ -40,7 +42,7 @@ public class Model extends JpaEntity<Integer> {
     private String name;
 }
 ```
-2. Extend your entity **repository** from the [JpaRepo](/jpa/src/main/java/io/github/cepr0/crud/repo/JpaRepo.java):
+2. Extend your entity **repository** from [JpaRepo](/jpa/src/main/java/io/github/cepr0/crud/repo/JpaRepo.java):
 ```java
 public interface ModelRepo extends JpaRepo<Model, Integer> {}
 ```
@@ -119,17 +121,33 @@ public class ModelController extends AbstractCrudController<Model, Integer, Mode
 ```
 Then your application is fully setup to perform CRUD operations. 
 
+If you need to work with MongoDB you should extend your entities (documents) from [IdentifiableEntity](/model/src/main/java/io/github/cepr0/crud/model/IdentifiableEntity.java), and your repositories from [MongoRepo](/mongo/src/main/java/io/github/cepr0/crud/repo/MongoRepo.java):
+
+```java
+@Data
+@Document
+public class Model implements IdentifiableEntity<String> {
+   @Id private String id;
+   // other stuff
+}
+
+public interface ModelRepo extends MongoRepo<Model, String> {
+}
+```
+
+Other steps (from 3 to 6) are the same.
+
 ## Demo
 
-А comprehensive example of using the library you can find in the **[demo](/demo)** module.
+А comprehensive example of using the library with JPA database you can find in the **[demo](/demo)** module.
 
 ## Requirements
 
-The library works with Spring Framework 4.3+ (Spring Boot 1.5+) and depends on MapStruct 1.3+.
+The library works with Java 8+, Spring Framework 4.3+ (Spring Boot 1.5+) and MapStruct 1.3+.
 
 ## Installation 
 
-Add `io.github.cepr0:generic-crud-jpa` dependency to your application and additionally `io.github.cepr0:generic-crud-web` if you have a web layer in your application and you want to use `AbstractCrudCtroller`  (and other features) from this module:
+Depending on the type of your database, add `io.github.cepr0:generic-crud-jpa` or `io.github.cepr0:generic-crud-mongo` dependency to your project. Additionally you can add `io.github.cepr0:generic-crud-web` if you have a web layer in your application and if you want to use `AbstractCrudCtroller` (and other features) from this module:
 
 ```xml
 <properties>
@@ -139,9 +157,18 @@ Add `io.github.cepr0:generic-crud-jpa` dependency to your application and additi
 
 <dependensies>
     <!-- ... -->
+  
+    <!-- For JPA databases -->
     <dependency>
         <groupId>io.github.cepr0</groupId>
         <artifactId>generic-crud-jpa</artifactId>
+        <version>${generic-crud.version}</version>
+    </dependency>
+  
+    <!-- For MongoDB -->
+    <dependency>
+        <groupId>io.github.cepr0</groupId>
+        <artifactId>generic-crud-mongo</artifactId>
         <version>${generic-crud.version}</version>
     </dependency>
 
@@ -150,6 +177,7 @@ Add `io.github.cepr0:generic-crud-jpa` dependency to your application and additi
         <artifactId>generic-crud-web</artifactId>
         <version>${generic-crud.version}</version>
     </dependency>
+  
     <!-- ... -->
 </dependensies>
 ```
@@ -218,8 +246,14 @@ In order to work with CRUD operations, your entities should implement `Identifia
 public class Model implements IdentifiableEntity<Integer> {
    @Id
    @GeneratedValue
-   private Integer id;
-    
+   private Integer id;   
+   // other stuff
+}
+
+@Data
+@Document
+public class Model implements IdentifiableEntity<String> {
+   @Id private String id;
    // other stuff
 }
 ```
@@ -599,7 +633,7 @@ public class CustomPageSerializer extends CrudPageSerializer {
 }
 ```
 
-You can customized a name of every field of the view. To customize the field names of `page`, `elements` and `sort` sections you can just set your value to the corresponding protected property of [CrudPageSerializer](/web/src/main/java/io/github/cepr0/crud/api/CrudPageSerializer.java). To change the name of the 'content' property you can use annotation `@ContentAlias` with your response DTO, or replace the value of `contentAliasMode` , the protected property of [CrudPageSerializer](/web/src/main/java/io/github/cepr0/crud/api/CrudPageSerializer.java), to change the behavior of naming the 'content' property: 
+You can customized a name of every field of that view. To customize the field names of `page`, `elements` and `sort` sections you can just set your value to the corresponding protected property of [CrudPageSerializer](/web/src/main/java/io/github/cepr0/crud/api/CrudPageSerializer.java). To change the name of the 'content' property you can use annotation `@ContentAlias` with your response DTO, or replace the value of `contentAliasMode` , the protected property of [CrudPageSerializer](/web/src/main/java/io/github/cepr0/crud/api/CrudPageSerializer.java), to change the behavior of naming the 'content' property: 
 
 ```java
 @Data
@@ -653,7 +687,7 @@ The `@ContentAlias` has the higher priority than the `ContentAliasMode`.
 
 ### Expandability
 
-Currently, the library support JPA databases only, but you can expand it by implementing the [CrudRepo](/base/src/main/java/io/github/cepr0/crud/repo/CrudRepo.java) interface for another database type. The new module will work with other modules of the library without their modifications.
+Currently, the library support JPA databases and MongoDB, but you can expand it by implementing the [CrudRepo](/base/src/main/java/io/github/cepr0/crud/repo/CrudRepo.java) interface for another database type. The new module will work with other modules of the library without their modifications.
 
 ## Structure
 
@@ -662,6 +696,7 @@ The library is separated into the following modules:
 - generic-crud-model
 - generic-crud-base
 - generic-crud-jpa
+- generic-crud-mongo
 - generic-crud-web
 
 **Model** module contains base classes such as `IdentifiableEntity` and `EntityEvent` and **doesn't have any dependencies**. 
@@ -671,25 +706,30 @@ You can freely include it in your 'model' module without worrying about unnecess
 **Base** module contains interfaces of base elements like `CrudRepo`, `CrudMapper` and `CrudService`, 
 and the abstract implementation of the last one – `AbstractCrudService`. The module depends on **model** module, as well as on external non-transitive dependencies: 
 
-- `org.springframework:spring-tx`, 
-- `org.springframework:spring-context`, 
-- `org.springframework.data:spring-data-commons`, 
-- `org.mapstruct:mapstruct`. 
+- `org.springframework:spring-tx`
+- `org.springframework:spring-context`
+- `org.springframework.data:spring-data-commons`
+- `org.mapstruct:mapstruct`
 
-**JPA** module contains `JpaRepo` – the 'implementation' of `CrudRepo` that extends `JpaRepository`, so that you can work with any JPA-supported database. 
-The module depends on **base** module and external non-transitive dependency:
+**JPA** module contains `JpaRepo` – the 'implementation' of `CrudRepo` that extends `JpaRepository`, so that you can work with any JPA-supported database. The module depends on **base** module and external non-transitive dependency:
 
-- `org.springframework.data:spring-data-jpa`. 
+- `org.springframework.data:spring-data-jpa`
 
 You can use this module in the applications where the `spring-data-jpa` and all external dependencies of **base** module are present (for example in Spring-Boot application with `spring-boot-starter-data-jpa` starter).
+
+**Mongo** module contains `MongRepo` – the 'implementation' of `CrudRepo` that extends `MongoRepository`. The module depends on **base** module and external non-transitive dependency:
+
+- `org.springframework.data:spring-data-mongodb`
+
+You can use this module in the applications where the `spring-data-mongodb` and all external dependencies of **base** module are present.
 
 **Web** module contains an abstract implementation of REST controller – `AbstractCrudController` (and other related classes). 
 This module depends on **base** module and external dependencies:
 
-- `org.atteo:evo-inflector`,  
-- `org.springframework:spring-web`, 
+- `org.atteo:evo-inflector`
+- `org.springframework:spring-web`
 - `org.springframework.data:spring-data-commons` 
-- `com.fasterxml.jackson.core:jackson-databind`. 
+- `com.fasterxml.jackson.core:jackson-databind`
 
 All external dependencies, except `evo-inflector`, are non-transitive. You can use the **web** module in the applications where those external dependencies (and all external dependencies of **base** module) are present (for example in the Spring-Boot application with `spring-boot-starter-web` and `spring-boot-starter-data-jpa` starters).
 
