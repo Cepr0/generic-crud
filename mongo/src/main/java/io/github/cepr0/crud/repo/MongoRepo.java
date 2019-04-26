@@ -100,7 +100,7 @@ public interface MongoRepo<T extends IdentifiableEntity<ID>, ID extends Serializ
 	 */
 	@NonNull
 	default T getOne(@NonNull ID id) {
-		return findById(id)
+		return getById(id)
 				.orElseThrow(() -> new DocNotFoundException(format("Mongo document with id '%s' not found", id)));
 	}
 
