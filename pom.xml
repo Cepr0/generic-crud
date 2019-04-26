@@ -58,6 +58,7 @@
         <module>base</module>
         <module>jpa</module>
         <module>web</module>
+        <module>mongo</module>
     </modules>
 
     <properties>
