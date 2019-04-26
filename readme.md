@@ -152,7 +152,7 @@ Depending on the type of your database, add `io.github.cepr0:generic-crud-jpa` o
 ```xml
 <properties>
     <!-- ... -->
-    <generic-crud.version>0.2.1</generic-crud.version>
+    <generic-crud.version>0.3.0</generic-crud.version>
 </properties>   
 
 <dependensies>
