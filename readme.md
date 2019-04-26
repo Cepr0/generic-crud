@@ -1,8 +1,8 @@
 # Generic CRUD
 
-![Maven Central](https://img.shields.io/maven-central/v/io.github.cepr0/generic-crud-parent.svg)
-![GitHub repo size](https://img.shields.io/github/repo-size/cepr0/generic-crud.svg)
-![GitHub](https://img.shields.io/github/license/cepr0/generic-crud.svg)
+[![Maven Central](https://img.shields.io/maven-central/v/io.github.cepr0/generic-crud-parent.svg)](https://search.maven.org/search?q=g:io.github.cepr0)
+[![GitHub repo size](https://img.shields.io/github/repo-size/cepr0/generic-crud.svg)](https://github.com/Cepr0/generic-crud/releases/latest)
+[![License](https://img.shields.io/github/license/cepr0/generic-crud.svg)](LICENSE.md)
 
 **Generic CRUD** is a small modular and expandable library that allows you to eliminate the writing of boilerplate code for [CRUD](https://en.wikipedia.org/wiki/Create,_read,_update_and_delete) operations in the development of [Spring](https://spring.io/) applications that work with databases. It implements a full set of base operations to **C**reate, **R**ead, **U**pdate and **D**elete your entities. Currently, it works with **JPA databases** and **MongoDB** but you can expand it to work with other databases.  
 
@@ -279,7 +279,10 @@ public class ModelResponse implements CrudResponse<Integer> {
 
 ### Repositories
 
-All repositories should inherit `JpaRepo` interface, which, in turn, inherits the base interface `CrudRepo` and standard `JpaRepository` repository. Therefore all your repositories have the functionality of both `CrudRepo` and  `JpaRepository`. There are the following main methods of `JpaRepo`:
+If you work with JPA database your repositories should inherit `JpaRepo` interface, which, in turn, inherits the base interface `CrudRepo` and standard `JpaRepository` repository. If you work with MongoDB you should extend your repositories from `MongoRepo`, which extends `MongoRepository`. 
+Therefore all your repositories have the functionality of both `CrudRepo` and `JpaRepository` / `MongoRepository`. 
+
+There are the following main methods of `JpaRepo`:
 
 - `create()` – creates a new entity
 - `update()` – updates one entity by its `id`
