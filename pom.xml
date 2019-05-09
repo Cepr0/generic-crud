@@ -20,7 +20,7 @@
 
     <groupId>io.github.cepr0</groupId>
     <artifactId>generic-crud-parent</artifactId>
-    <version>0.3.1</version>
+    <version>0.3.2-SNAPSHOT</version>
     <packaging>pom</packaging>
 
     <name>Generic CRUD</name>
@@ -50,7 +50,7 @@
         <connection>scm:git:git@github.com:Cepr0/generic-crud.git</connection>
         <developerConnection>scm:git:git@github.com:Cepr0/generic-crud.git</developerConnection>
         <url>scm:git:git@github.com:Cepr0/generic-crud.git</url>
-      <tag>0.3.1</tag>
+      <tag>HEAD</tag>
   </scm>
 
     <modules>
