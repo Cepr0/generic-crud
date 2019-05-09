@@ -48,9 +48,9 @@
     </developers>
 
     <scm>
-        <connection>scm:git:git@github.com/Cepr0/generic-crud</connection>
-        <developerConnection>scm:git:git@github.com/Cepr0/generic-crud</developerConnection>
-        <url>scm:git:git@github.com/Cepr0/generic-crud</url>
+        <connection>scm:git:git@github.com:Cepr0/generic-crud.git</connection>
+        <developerConnection>scm:git:git@github.com:Cepr0/generic-crud.git</developerConnection>
+        <url>scm:git:git@github.com:Cepr0/generic-crud.git</url>
     </scm>
 
     <modules>
