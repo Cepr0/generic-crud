@@ -59,8 +59,8 @@ public interface CrudService<T extends IdentifiableEntity<ID>, ID extends Serial
 	/**
 	 * Updates an entity found by its id, with a given source as an input (request) DTO.
 	 *
-	 * @param id, must not be {@code null}
-	 * @param source, must not be {@code null}
+	 * @param id must not be {@code null}
+	 * @param source must not be {@code null}
 	 * @return output (response) DTO of the updated entity, will never be {@code null}
 	 */
 	@NonNull Optional<S> update(@NonNull ID id, @NonNull Q source);
