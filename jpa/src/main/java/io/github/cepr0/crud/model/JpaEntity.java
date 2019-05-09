@@ -42,7 +42,7 @@ public abstract class JpaEntity<ID extends Serializable> implements Identifiable
 	@Override
 	public boolean equals(Object o) {
 		if (this == o) return true;
-		if (o == null || getClass() != o.getClass()) return false;
+		if (!getClass().isInstance(o)) return false;
 		return getId() != null && getId().equals(((JpaEntity) o).getId());
 	}
 

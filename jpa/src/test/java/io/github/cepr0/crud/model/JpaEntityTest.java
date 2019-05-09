@@ -16,7 +16,12 @@
 
 package io.github.cepr0.crud.model;
 
-import io.github.cepr0.test.model.Model;
+import lombok.AllArgsConstructor;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.Setter;
+import net.sf.cglib.proxy.Enhancer;
+import net.sf.cglib.proxy.MethodInterceptor;
 import org.assertj.core.api.Assertions;
 import org.junit.Before;
 import org.junit.Test;
@@ -31,26 +36,97 @@ import static org.assertj.core.api.Assertions.assertThat;
  */
 public class JpaEntityTest {
 
-	private Model model1;
-	private Model model2;
+	private Model x;
+	private Model y;
+	private Model z;
 
 	@Before
-	public void setUp() throws Exception {
-		model1 = new Model("model1", 1);
-		model2 = new Model("model2", 2);
+	public void setUp() {
+		x = new Model(1);
+		y = new Model(1);
+		z = new Model(1);
 	}
 
 	@Test
 	public void set() {
+		Model model1 = new Model(null);
+		Model model2 = new Model(null);
+
 		HashSet<Model> models = new HashSet<>(asList(model1, model2));
 		Assertions.assertThat(models).hasSize(2);
 	}
 
 	@Test
 	public void equals() {
+		Model model1 = new Model(null);
+		Model model2 = new Model(null);
+
 		assertThat(model1).isNotEqualTo(model2);
+
 		model1.setId(1);
 		model2.setId(1);
 		assertThat(model1).isEqualTo(model2);
+	}
+
+	@SuppressWarnings("EqualsWithItself")
+	@Test
+	public void reflexive() {
+		assertThat(x.equals(x)).isTrue();
+	}
+
+	@Test
+	public void symmetric() {
+		assertThat(x.equals(y)).isTrue();
+		assertThat(y.equals(x)).isTrue();
+	}
+
+	@Test
+	public void transitive() {
+		assertThat(x.equals(y)).isTrue();
+		assertThat(y.equals(z)).isTrue();
+		assertThat(z.equals(x)).isTrue();
+	}
+
+	@Test
+	public void consistence() {
+		for (int i = 0; i < 1000; i++) {
+			assertThat(x.equals(y)).isTrue();
+		}
+	}
+
+	@SuppressWarnings("ConstantConditions")
+	@Test
+	public void nullComparison() {
+		assertThat(new Model(null).equals(null)).isFalse();
+		assertThat(new Model(0).equals(null)).isFalse();
+		assertThat(new Model(Integer.MIN_VALUE).equals(null)).isFalse();
+		assertThat(new Model(Integer.MAX_VALUE).equals(null)).isFalse();
+	}
+
+	@Test
+	public void hashCodeContract() {
+		assertThat(x.equals(y)).isTrue();
+		assertThat(x.hashCode()).isEqualTo(y.hashCode());
+
+		// consistence
+		assertThat(x.hashCode()).isEqualTo(x.hashCode());
+	}
+
+	@Test
+	public void comparisonWithProxy() {
+		Model model = new Model(1);
+		Model proxy = (Model) Enhancer.create(
+				Model.class,
+				(MethodInterceptor) (object, method, args, methodProxy) -> methodProxy.invoke(model, args)
+		);
+		assertThat(model.equals(proxy)).isTrue();
+	}
+
+	@Getter
+	@Setter
+	@AllArgsConstructor
+	@NoArgsConstructor
+	static class Model extends JpaEntity<Integer> {
+		private Integer id;
 	}
 }
