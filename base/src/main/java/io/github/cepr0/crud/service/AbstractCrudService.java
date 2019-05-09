@@ -127,7 +127,7 @@ public abstract class AbstractCrudService<T extends IdentifiableEntity<ID>, ID e
 	@NonNull
 	@Override
 	public Optional<S> update(final ID id, final Q source) {
-		return repo.update(id, source, new CallbackMapperAdapter<>(mapper::toUpdate, this::onUpdate))
+		return repo.update(id, source, new CallbackMapper<>(mapper::toUpdate, this::onUpdate))
 				.map(entity -> {
 					EntityEvent<T> event = onUpdateEvent(entity);
 					if (event != null) publisher.publishEvent(event);

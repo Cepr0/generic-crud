@@ -24,16 +24,16 @@ import static org.assertj.core.api.Assertions.assertThat;
 /**
  * @author Sergei Poznanski
  */
-public class CallbackMapperAdapterTest {
+public class CallbackMapperTest {
 
-	private CallbackMapperAdapter<String, String> mapper;
+	private CallbackMapper<String, String> mapper;
 	private String source, target;
 
 	@Before
 	public void setUp() {
 		source = "source";
 		target = "target";
-		mapper = new CallbackMapperAdapter<>(this::map, this::callback);
+		mapper = new CallbackMapper<>(this::map, this::callback);
 	}
 
 	@Test
