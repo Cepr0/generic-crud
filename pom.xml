@@ -21,7 +21,7 @@
 
     <groupId>io.github.cepr0</groupId>
     <artifactId>generic-crud-parent</artifactId>
-    <version>0.3.0</version>
+    <version>0.3.1-SNAPSHOT</version>
     <packaging>pom</packaging>
 
     <name>Generic CRUD</name>
@@ -48,9 +48,9 @@
     </developers>
 
     <scm>
-        <connection>scm:git:git://github.com/Cepr0/generic-crud.git</connection>
-        <developerConnection>scm:git:ssh://github.com:Cepr0/generic-crud.git</developerConnection>
-        <url>https://github.com/Cepr0/generic-crud</url>
+        <connection>scm:git:git@github.com/Cepr0/generic-crud</connection>
+        <developerConnection>scm:git:git@github.com/Cepr0/generic-crud</developerConnection>
+        <url>scm:git:git@github.com/Cepr0/generic-crud</url>
     </scm>
 
     <modules>
@@ -68,7 +68,7 @@
         <maven.compiler.source>${java.version}</maven.compiler.source>
         <maven.compiler.target>${java.version}</maven.compiler.target>
 
-        <!--<spring-boot.version>2.1.3.RELEASE</spring-boot.version>-->
+        <spring-boot.version>2.1.4.RELEASE</spring-boot.version>
         <mapstruct.version>1.3.0.Final</mapstruct.version>
         <lombok.version>1.18.6</lombok.version>
         <evo-inflector.version>1.2.2</evo-inflector.version>
@@ -90,6 +90,10 @@
             <id>ossrh</id>
             <url>https://oss.sonatype.org/content/repositories/snapshots</url>
         </snapshotRepository>
+        <repository>
+            <id>ossrh</id>
+            <url>https://oss.sonatype.org/service/local/staging/deploy/maven2/</url>
+        </repository>
     </distributionManagement>
 
     <dependencyManagement>
@@ -142,22 +146,33 @@
                         </executions>
                     </plugin>
 
+                    <plugin>
+                        <groupId>org.sonatype.plugins</groupId>
+                        <artifactId>nexus-staging-maven-plugin</artifactId>
+                        <version>1.6.8</version>
+                        <executions>
+                            <execution>
+                                <id>default-deploy</id>
+                                <phase>deploy</phase>
+                                <goals>
+                                    <goal>deploy</goal>
+                                </goals>
+                            </execution>
+                        </executions>
+                        <configuration>
+                            <serverId>ossrh</serverId>
+                            <nexusUrl>https://oss.sonatype.org/</nexusUrl>
+                            <autoReleaseAfterClose>true</autoReleaseAfterClose>
+                        </configuration>
+                    </plugin>
+
                 </plugins>
             </build>
         </profile>
         <profile>
-            <id>sb-2.0.x</id>
+            <id>sb2.0</id>
             <properties>
                 <spring-boot.version>2.0.9.RELEASE</spring-boot.version>
-            </properties>
-        </profile>
-        <profile>
-            <id>sb-2.1.x</id>
-            <activation>
-                <activeByDefault>true</activeByDefault>
-            </activation>
-            <properties>
-                <spring-boot.version>2.1.4.RELEASE</spring-boot.version>
             </properties>
         </profile>
     </profiles>
@@ -201,16 +216,21 @@
             </plugin>
 
             <plugin>
-                <groupId>org.sonatype.plugins</groupId>
-                <artifactId>nexus-staging-maven-plugin</artifactId>
-                <version>1.6.8</version>
-                <extensions>true</extensions>
+                <artifactId>maven-deploy-plugin</artifactId>
                 <configuration>
-                    <serverId>ossrh</serverId>
-                    <nexusUrl>https://oss.sonatype.org/</nexusUrl>
-                    <autoReleaseAfterClose>true</autoReleaseAfterClose>
+                    <skip>true</skip>
                 </configuration>
             </plugin>
+
+            <plugin>
+                <artifactId>maven-release-plugin</artifactId>
+                <configuration>
+                    <tagNameFormat>@{project.version}</tagNameFormat>
+                    <autoVersionSubmodules>true</autoVersionSubmodules>
+                    <releaseProfiles>release</releaseProfiles>
+                </configuration>
+            </plugin>
+
         </plugins>
 
         <pluginManagement>
